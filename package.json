@@ -1,5 +1,5 @@
 {
-  "name": "fomonext",
+  "name": "oldiezweb",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,6 +17,7 @@
     "next": "^7.0.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
+    "react-game-kit": "^1.0.6",
     "react-markdown": "^4.0.3",
     "socket.io": "^2.1.1"
   }

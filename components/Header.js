@@ -15,6 +15,9 @@ const Header = () => (
         <Link href="/socket">
           <a style={linkStyle}>Socket</a>
         </Link>
+        <Link href="/game">
+          <a style={linkStyle}>Game</a>
+        </Link>
     </div>
 )
 

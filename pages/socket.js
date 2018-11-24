@@ -36,7 +36,11 @@ class LeSocket extends React.Component {
 
   render() {
     // Because `this.handleClick` is bound, we can use it as an event handler.
-    return <ul>{ this.state.messages.map( (msg, idx) => <li key={'msg-' + idx }>{ msg }</li> )}</ul>;
+    return (
+      <p>
+        <ul>{ this.state.messages.map( (msg, idx) => <li key={'msg-' + idx }>{ msg }</li> )}</ul>
+      </p>
+    );
   }
 }
 
