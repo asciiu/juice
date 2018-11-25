@@ -1,18 +1,25 @@
 import Layout from '../components/MyLayout.js'
 import 'script-loader!../scripts/createjs.min.js';
 import 'script-loader!../scripts/tweenjs.min.js';
+import 'script-loader!../scripts/soundjs.min.js';
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
     //this.state = {messages: []};
-    // This line is important!
-    //this.handleClick = this.handleClick.bind(this);
+    // This binding is necessary to make `this` work in the callback
+    this.playSound = this.playSound.bind(this);
   }
 
   componentDidMount() {
-    //document.head.appendChild(script);
     this.init()
+  }
+
+  playSound () {
+    if (this.soundID) {
+      console.log(this.soundID);
+      createjs.Sound.play(this.soundID);
+    }
   }
 
   init() {
@@ -31,6 +38,9 @@ class Game extends React.Component {
     .to({ x: 100 }, 800, createjs.Ease.getPowInOut(2));
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", stage);
+
+    this.soundID = "thunder";
+    createjs.Sound.registerSound("/static/squeakyToy.mp3", this.soundID);
   }
 
   render() {
@@ -39,6 +49,7 @@ class Game extends React.Component {
         <p>androidsex</p>
         <p> coming soon! </p>
         <canvas id="demoCanvas" width="500" height="300"></canvas>
+        <button onClick={this.playSound}>Play Sound</button>
       </Layout>
     );
   }
