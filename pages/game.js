@@ -24,7 +24,7 @@ class Game extends React.Component {
 
   init() {
     let stage = new createjs.Stage("demoCanvas");
-    var circle = new createjs.Shape();
+    let circle = new createjs.Shape();
     circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
     circle.x = 100;
     circle.y = 100;
@@ -46,8 +46,7 @@ class Game extends React.Component {
   render() {
     return (
       <Layout>
-        <p>androidsex</p>
-        <p> coming soon! </p>
+        <p>ANEX coming soon!</p>
         <canvas id="demoCanvas" width="500" height="300"></canvas>
         <button onClick={this.playSound}>Play Sound</button>
       </Layout>
