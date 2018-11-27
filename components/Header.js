@@ -15,8 +15,8 @@ const Header = () => (
         <Link href="/socket">
           <a style={linkStyle}>Socket</a>
         </Link>
-        <Link href="/game">
-          <a style={linkStyle}>Game</a>
+        <Link href="/sketch">
+          <a style={linkStyle}>Sketch</a>
         </Link>
     </div>
 )

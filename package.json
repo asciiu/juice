@@ -18,6 +18,7 @@
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-markdown": "^4.0.3",
+    "react-p5-wrapper": "0.0.4",
     "script-loader": "^0.7.2"
   }
 }
