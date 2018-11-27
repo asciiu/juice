@@ -1,6 +1,7 @@
 import React from 'react';
 import p5 from 'p5';
 
+// Original source: https://discuss.reactjs.org/t/using-react-with-p5-js/5565/2
 export default class P5Wrapper extends React.Component {
 
   componentDidMount() {

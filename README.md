@@ -4,3 +4,10 @@
 ( •_•)>⌐■-■
 (⌐■_■)
 ```
+
+### Prerequisites
+Local Dev 
+```
+$ yarn install
+$ yarn run dev 
+```
