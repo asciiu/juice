@@ -1,51 +1,52 @@
 import {Ship} from './ship.js'
 import {Laser} from './laser.js'
-//var asteroids = [];
+import {Asteroid} from './asteroid.js'
 
 export default function sketch (p5) {
   let ship;
   let lasers = [];
+  let asteroids = [];
 
   p5.setup = () => {
     let width = 2*p5.windowWidth/3;
     let height = 3*p5.windowHeight/4; 
     p5.createCanvas(width, height);
     ship = new Ship(p5, width, height);
-    //for (var i = 0; i < 5; i++) {
-      //asteroids.push(new Asteroid());
-    //}
+    for (var i = 0; i < 5; i++) {
+      asteroids.push(new Asteroid(p5, 0, 0, width, height));
+    }
   }
 
   p5.draw = () => {
     p5.background(0);
   
-    //for (var i = 0; i < asteroids.length; i++) {
-    //  if (ship.hits(asteroids[i])) {
-    //    console.log('ooops!');
-    //  }
-    //  asteroids[i].render();
-    //  asteroids[i].update();
-    //  asteroids[i].edges();
-    //}
+    for (var i = 0; i < asteroids.length; i++) {
+      if (ship.hits(asteroids[i])) {
+        console.log('ooops!');
+      }
+      asteroids[i].render();
+      asteroids[i].update();
+      asteroids[i].edges();
+    }
   
     for (var i = lasers.length - 1; i >= 0; i--) {
       lasers[i].render();
       lasers[i].update();
       if (lasers[i].offscreen()) {
         lasers.splice(i, 1);
-      } //else {
-    //    for (var j = asteroids.length - 1; j >= 0; j--) {
-    //      if (lasers[i].hits(asteroids[j])) {
-    //        if (asteroids[j].r > 10) {
-    //          var newAsteroids = asteroids[j].breakup();
-    //          asteroids = asteroids.concat(newAsteroids);
-    //        }
-    //        asteroids.splice(j, 1);
-    //        lasers.splice(i, 1);
-    //        break;
-    //      }
-    //    }
-    //  }
+      } else {
+        for (var j = asteroids.length - 1; j >= 0; j--) {
+          if (lasers[i].hits(asteroids[j])) {
+            if (asteroids[j].r > 10) {
+              var newAsteroids = asteroids[j].breakup();
+              asteroids = asteroids.concat(newAsteroids);
+            }
+            asteroids.splice(j, 1);
+            lasers.splice(i, 1);
+            break;
+          }
+        }
+      }
     }
   
     ship.render();
@@ -70,5 +71,6 @@ export default function sketch (p5) {
     } else if (event.keyCode == p5.UP_ARROW) {
       ship.boosting(true);
     }
+    event.preventDefault;
   }
 }
