@@ -1,13 +1,16 @@
 import {Ship} from './ship.js'
+import {Laser} from './laser.js'
 //var asteroids = [];
-//var lasers = [];
 
 export default function sketch (p5) {
   let ship;
+  let lasers = [];
 
   p5.setup = () => {
-    p5.createCanvas(2*p5.windowWidth/3, 3*p5.windowHeight/4);
-    ship = new Ship(p5);
+    let width = 2*p5.windowWidth/3;
+    let height = 3*p5.windowHeight/4; 
+    p5.createCanvas(width, height);
+    ship = new Ship(p5, width, height);
     //for (var i = 0; i < 5; i++) {
       //asteroids.push(new Asteroid());
     //}
@@ -25,12 +28,12 @@ export default function sketch (p5) {
     //  asteroids[i].edges();
     //}
   
-    //for (var i = lasers.length - 1; i >= 0; i--) {
-    //  lasers[i].render();
-    //  lasers[i].update();
-    //  if (lasers[i].offscreen()) {
-    //    lasers.splice(i, 1);
-    //  } else {
+    for (var i = lasers.length - 1; i >= 0; i--) {
+      lasers[i].render();
+      lasers[i].update();
+      if (lasers[i].offscreen()) {
+        lasers.splice(i, 1);
+      } //else {
     //    for (var j = asteroids.length - 1; j >= 0; j--) {
     //      if (lasers[i].hits(asteroids[j])) {
     //        if (asteroids[j].r > 10) {
@@ -43,14 +46,12 @@ export default function sketch (p5) {
     //      }
     //    }
     //  }
-    //}
-  
-    //console.log(lasers.length);
+    }
   
     ship.render();
     ship.turn();
     ship.update();
-    //ship.edges();
+    ship.edges();
   }
   
   p5.keyReleased = (event) => {
@@ -61,7 +62,7 @@ export default function sketch (p5) {
   p5.keyPressed = (event) => {
 
     if (event.key == ' ') {
-      //lasers.push(new Laser(ship.pos, ship.heading));
+      lasers.push(new Laser(p5, ship.pos, ship.heading));
     } else if (event.keyCode == p5.RIGHT_ARROW) {
       ship.setRotation(0.1);
     } else if (event.keyCode == p5.LEFT_ARROW) {

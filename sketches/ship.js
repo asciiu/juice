@@ -1,9 +1,11 @@
 import p5 from 'p5'
 
 export class Ship {
-  constructor(p5instance) {
+  constructor(p5instance, width, height) {
+    this.width = width;
+    this.height = height;
     this.p5 = p5instance;
-    this.pos = p5instance.createVector(10 / 2, 10 / 2);
+    this.pos = p5instance.createVector(width, height);
     this.r = 20;
     this.heading = 0;
     this.rotation = 0;
@@ -50,15 +52,15 @@ export class Ship {
   };
   
   edges = () => {
-    if (this.pos.x > width + this.r) {
+    if (this.pos.x > this.width + this.r) {
       this.pos.x = -this.r;
     } else if (this.pos.x < -this.r) {
-      this.pos.x = width + this.r;
+      this.pos.x = this.width + this.r;
     }
-    if (this.pos.y > height + this.r) {
+    if (this.pos.y > this.height + this.r) {
       this.pos.y = -this.r;
     } else if (this.pos.y < -this.r) {
-      this.pos.y = height + this.r;
+      this.pos.y = this.height + this.r;
     }
   }
   
