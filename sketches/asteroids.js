@@ -1,13 +1,20 @@
 import {Ship} from './ship.js'
 import {Laser} from './laser.js'
 import {Asteroid} from './asteroid.js'
+import p7 from 'p5'
+import 'p5/lib/addons/p5.sound'
 
 export default function sketch (p5) {
   let ship;
   let lasers = [];
   let asteroids = [];
+  let crashSound;
+  let moneySound;
 
   p5.setup = () => {
+    crashSound = p5.loadSound('static/explosion.mp3');
+    moneySound = p5.loadSound('static/money.mp3');
+
     let width = 2*p5.windowWidth/3;
     let height = 3*p5.windowHeight/4; 
     p5.createCanvas(width, height);
@@ -24,6 +31,7 @@ export default function sketch (p5) {
     // renders all asteriods
     for (var i = 0; i < asteroids.length; i++) {
       if ( ship.hits(asteroids[i]) && !ship.destroyed() ) {
+        crashSound.play();
         let shipFrags = ship.destroy();
         asteroids = asteroids.concat(shipFrags);
         console.log('ooops!');
@@ -42,6 +50,7 @@ export default function sketch (p5) {
         for (var j = asteroids.length - 1; j >= 0; j--) {
           if (lasers[i].hits(asteroids[j])) {
             if (asteroids[j].r > 9) {
+              moneySound.play();
               var newAsteroids = asteroids[j].breakup();
               asteroids = asteroids.concat(newAsteroids);
             }
