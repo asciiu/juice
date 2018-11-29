@@ -11,9 +11,10 @@ export default function sketch (p5) {
     let width = 2*p5.windowWidth/3;
     let height = 3*p5.windowHeight/4; 
     p5.createCanvas(width, height);
-    ship = new Ship(p5, width, height);
-    for (var i = 0; i < 5; i++) {
-      asteroids.push(new Asteroid(p5, 0, 0, width, height));
+
+    ship = new Ship(p5);
+    for (var i = 0; i < 9; i++) {
+      asteroids.push(new Asteroid(p5, 0, 0));
     }
   }
 

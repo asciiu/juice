@@ -1,15 +1,13 @@
 import p5 from 'p5'
 
 export class Asteroid {
-  constructor(p5instance, pos, r, width, height) {
+  constructor(p5instance, pos, r) {
     this.p5 = p5instance;
-    this.width = width;
-    this.height = height;
 
     if (pos) {
       this.pos = pos.copy();
     } else {
-      this.pos = p5instance.createVector(p5instance.random(width), p5instance.random(height))
+      this.pos = p5instance.createVector(p5instance.random(this.p5.width), p5instance.random(this.p5.height))
     }
     if (r) {
       this.r = r * 0.5;
@@ -49,21 +47,21 @@ export class Asteroid {
   
   breakup = () => {
     var newA = [];
-    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.width, this.height);
-    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.width, this.height);
+    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
+    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
     return newA;
   }
   
   edges = () => {
-    if (this.pos.x > this.width + this.r) {
+    if (this.pos.x > this.p5.width + this.r) {
       this.pos.x = -this.r;
     } else if (this.pos.x < -this.r) {
-      this.pos.x = this.width + this.r;
+      this.pos.x = this.p5.width + this.r;
     }
-    if (this.pos.y > this.height + this.r) {
+    if (this.pos.y > this.p5.height + this.r) {
       this.pos.y = -this.r;
     } else if (this.pos.y < -this.r) {
-      this.pos.y = this.height + this.r;
+      this.pos.y = this.p5.height + this.r;
     }
   }
 }
