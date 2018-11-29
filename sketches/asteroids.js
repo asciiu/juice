@@ -12,6 +12,11 @@ export default function sketch (p5) {
   let crumbleSound;
   let laserSound;
   let coinSound;
+  let rocket;
+
+  p5.preload = () => {
+    rocket = p5.loadImage('static/rocketSeller.png');
+  }
 
   p5.setup = () => {
     crashSound = p5.loadSound('static/crash.mp3');
@@ -28,7 +33,7 @@ export default function sketch (p5) {
     let height = 3*p5.windowHeight/4; 
     p5.createCanvas(width, height);
 
-    ship = new Ship(p5);
+    ship = new Ship(p5, rocket);
     for (var i = 0; i < 9; i++) {
       asteroids.push(new Asteroid(p5, 0, 0));
     }
