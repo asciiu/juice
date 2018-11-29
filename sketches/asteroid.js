@@ -45,10 +45,12 @@ export class Asteroid {
     this.p5.pop();
   }
   
+  // returns an array of new Asteriods
   breakup = () => {
     var newA = [];
     newA[0] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
     newA[1] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
+    newA[2] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
     return newA;
   }
   

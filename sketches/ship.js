@@ -1,4 +1,5 @@
 import p5 from 'p5'
+import {Asteroid} from './asteroid.js'
 
 export class Ship {
   constructor(p5instance) {
@@ -9,6 +10,7 @@ export class Ship {
     this.rotation = 0;
     this.vel = p5instance.createVector(0, 0);
     this.isBoosting = false;
+    this.isDestroyed = false;
   }
   
   // boost is true or false
@@ -16,6 +18,20 @@ export class Ship {
     this.isBoosting = boost;
   }
   
+  destroy = () => {
+    this.isDestroyed = true;
+    var newA = [];
+    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
+    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
+    newA[2] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
+    newA[3] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
+    return newA;
+  }
+
+  destroyed = () => {
+    return this.isDestroyed;
+  }
+
   update = () => {
     if (this.isBoosting) {
       this.boost();
@@ -32,7 +48,7 @@ export class Ship {
   
   hits = (asteroid) => {
     let d = this.p5.dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
-    if (d < this.r + asteroid.r) {
+    if (d < this.r + asteroid.r && !this.isDestroyed) {
       return true;
     } else {
       return false;
@@ -40,13 +56,15 @@ export class Ship {
   };
   
   render = () => {
-    this.p5.push();
-    this.p5.translate(this.pos.x, this.pos.y);
-    this.p5.rotate(this.heading + this.p5.PI / 2);
-    this.p5.fill(0, 255, 0, 100);
-    this.p5.stroke(255);
-    this.p5.triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
-    this.p5.pop();
+    if (!this.isDestroyed) {
+      this.p5.push();
+      this.p5.translate(this.pos.x, this.pos.y);
+      this.p5.rotate(this.heading + this.p5.PI / 2);
+      this.p5.fill(0, 255, 0, 100);
+      this.p5.stroke(255);
+      this.p5.triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
+      this.p5.pop();
+    }
   };
   
   edges = () => {

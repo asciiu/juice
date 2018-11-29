@@ -21,8 +21,11 @@ export default function sketch (p5) {
   p5.draw = () => {
     p5.background(0);
   
+    // renders all asteriods
     for (var i = 0; i < asteroids.length; i++) {
-      if (ship.hits(asteroids[i])) {
+      if ( ship.hits(asteroids[i]) && !ship.destroyed() ) {
+        let shipFrags = ship.destroy();
+        asteroids = asteroids.concat(shipFrags);
         console.log('ooops!');
       }
       asteroids[i].render();
@@ -38,7 +41,7 @@ export default function sketch (p5) {
       } else {
         for (var j = asteroids.length - 1; j >= 0; j--) {
           if (lasers[i].hits(asteroids[j])) {
-            if (asteroids[j].r > 10) {
+            if (asteroids[j].r > 9) {
               var newAsteroids = asteroids[j].breakup();
               asteroids = asteroids.concat(newAsteroids);
             }
