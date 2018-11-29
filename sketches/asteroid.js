@@ -30,7 +30,8 @@ export class Asteroid {
   render = () => {
     this.p5.push();
     this.p5.stroke(255);
-    this.p5.noFill();
+    //this.p5.noFill();
+    this.p5.fill(255, 255, 51, 70);
     this.p5.translate(this.pos.x, this.pos.y);
     //ellipse(0, 0, this.r * 2);
     this.p5.beginShape();

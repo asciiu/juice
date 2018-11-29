@@ -60,7 +60,7 @@ export class Ship {
       this.p5.push();
       this.p5.translate(this.pos.x, this.pos.y);
       this.p5.rotate(this.heading + this.p5.PI / 2);
-      this.p5.fill(0, 255, 0, 100);
+      this.p5.fill(0, 255, 0, 150);
       this.p5.stroke(255);
       this.p5.triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
       this.p5.pop();
