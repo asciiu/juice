@@ -5,12 +5,18 @@ export class Ship {
   constructor(p5instance) {
     this.p5 = p5instance;
     this.pos = p5instance.createVector(p5instance.width/2, p5instance.height/2);
-    this.r = 5;
+    this.r = 6;
     this.heading = 0;
     this.rotation = 0;
     this.vel = p5instance.createVector(0, 0);
     this.isBoosting = false;
     this.isDestroyed = false;
+    this.color = {
+      red: 0,
+      green: 200,
+      blue: 0,
+      alpha: 200,
+    }
   }
   
   // boost is true or false
@@ -57,11 +63,12 @@ export class Ship {
   
   render = () => {
     if (!this.isDestroyed) {
+      let {red, green, blue, alpha} = this.color;
       this.p5.push();
       this.p5.translate(this.pos.x, this.pos.y);
       this.p5.rotate(this.heading + this.p5.PI / 2);
-      this.p5.fill(0, 255, 0, 150);
-      this.p5.stroke(255);
+      this.p5.fill(red, green, blue, alpha);
+      this.p5.stroke(0);
       this.p5.triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
       this.p5.pop();
     }

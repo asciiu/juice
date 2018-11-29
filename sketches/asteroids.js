@@ -9,14 +9,20 @@ export default function sketch (p5) {
   let lasers = [];
   let asteroids = [];
   let crashSound;
-  let moneySound;
-  let shooterSound;
+  let crumbleSound;
+  let laserSound;
+  let coinSound;
 
   p5.setup = () => {
-    crashSound = p5.loadSound('static/explosion.mp3');
-    moneySound = p5.loadSound('static/money.mp3');
-    shooterSound = p5.loadSound('static/squeakyToy.mp3');
-    shooterSound.setVolume(0.1);
+    crashSound = p5.loadSound('static/crash.mp3');
+    crumbleSound = p5.loadSound('static/crumble.mp3');
+    laserSound = p5.loadSound('static/laser.mp3');
+    coinSound = p5.loadSound('static/coins.mp3');
+
+    crashSound.setVolume(0.5);
+    crumbleSound.setVolume(0.3);
+    laserSound.setVolume(0.1);
+    coinSound.setVolume(0.5);
 
     let width = 2*p5.windowWidth/3;
     let height = 3*p5.windowHeight/4; 
@@ -37,7 +43,6 @@ export default function sketch (p5) {
         crashSound.play();
         let shipFrags = ship.destroy();
         asteroids = asteroids.concat(shipFrags);
-        console.log('ooops!');
       }
       asteroids[i].render();
       asteroids[i].update();
@@ -53,10 +58,13 @@ export default function sketch (p5) {
         for (var j = asteroids.length - 1; j >= 0; j--) {
           if (lasers[i].hits(asteroids[j])) {
             if (asteroids[j].r > 9) {
-              moneySound.play();
+              crumbleSound.play();
               var newAsteroids = asteroids[j].breakup();
               asteroids = asteroids.concat(newAsteroids);
+            } else {
+              coinSound.play();
             }
+
             asteroids.splice(j, 1);
             lasers.splice(i, 1);
             break;
@@ -79,7 +87,7 @@ export default function sketch (p5) {
   p5.keyPressed = (event) => {
 
     if (event.key == ' ' && !ship.destroyed()) {
-      shooterSound.play();
+      laserSound.play();
       lasers.push(new Laser(p5, ship.pos, ship.heading));
     } else if (event.keyCode == p5.RIGHT_ARROW) {
       ship.setRotation(0.1);
