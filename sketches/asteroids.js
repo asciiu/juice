@@ -10,10 +10,13 @@ export default function sketch (p5) {
   let asteroids = [];
   let crashSound;
   let moneySound;
+  let shooterSound;
 
   p5.setup = () => {
     crashSound = p5.loadSound('static/explosion.mp3');
     moneySound = p5.loadSound('static/money.mp3');
+    shooterSound = p5.loadSound('static/squeakyToy.mp3');
+    shooterSound.setVolume(0.1);
 
     let width = 2*p5.windowWidth/3;
     let height = 3*p5.windowHeight/4; 
@@ -75,7 +78,8 @@ export default function sketch (p5) {
   
   p5.keyPressed = (event) => {
 
-    if (event.key == ' ') {
+    if (event.key == ' ' && !ship.destroyed()) {
+      shooterSound.play();
       lasers.push(new Laser(p5, ship.pos, ship.heading));
     } else if (event.keyCode == p5.RIGHT_ARROW) {
       ship.setRotation(0.1);
