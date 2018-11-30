@@ -13,6 +13,7 @@ export default function sketch (p5) {
   let laserSound;
   let coinSound;
   let rocket;
+  let boosterSound;
 
   p5.preload = () => {
     rocket = p5.loadImage('static/rocketSeller.png');
@@ -23,8 +24,9 @@ export default function sketch (p5) {
     crumbleSound = p5.loadSound('static/crumble.mp3');
     laserSound = p5.loadSound('static/laser.mp3');
     coinSound = p5.loadSound('static/coins.mp3');
+    boosterSound = p5.loadSound('static/booster.mp3');
 
-    crashSound.setVolume(0.5);
+    crashSound.setVolume(0.1);
     crumbleSound.setVolume(0.3);
     laserSound.setVolume(0.1);
     coinSound.setVolume(0.5);
@@ -33,9 +35,16 @@ export default function sketch (p5) {
     let height = 3*p5.windowHeight/4; 
     p5.createCanvas(width, height);
 
+    let astroidColor = {
+      r: 255,
+      g: 255,
+      b: 50,
+      a: 70
+    };
+
     ship = new Ship(p5, rocket);
     for (var i = 0; i < 9; i++) {
-      asteroids.push(new Asteroid(p5, 0, 0));
+      asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
     }
   }
 

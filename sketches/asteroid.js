@@ -1,8 +1,11 @@
 import p5 from 'p5'
 
 export class Asteroid {
-  constructor(p5instance, pos, r) {
+
+  // color os expected to be {r, g, b, a}
+  constructor(p5instance, pos, r, color) {
     this.p5 = p5instance;
+    this.color = color;
 
     if (pos) {
       this.pos = pos.copy();
@@ -30,10 +33,11 @@ export class Asteroid {
   render = () => {
     this.p5.push();
     this.p5.stroke(255);
-    //this.p5.noFill();
-    this.p5.fill(255, 255, 51, 70);
+    this.p5.fill(this.color.r, this.color.g, this.color.b, this.color.a);
     this.p5.translate(this.pos.x, this.pos.y);
+
     //ellipse(0, 0, this.r * 2);
+
     this.p5.beginShape();
     for (var i = 0; i < this.total; i++) {
       var angle = this.p5.map(i, 0, this.total, 0, this.p5.TWO_PI);
@@ -49,9 +53,9 @@ export class Asteroid {
   // returns an array of new Asteriods
   breakup = () => {
     var newA = [];
-    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
-    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
-    newA[2] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
+    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.color);
+    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.color);
+    newA[2] = new Asteroid(this.p5, this.pos, this.r, this.color);
     return newA;
   }
   

@@ -33,11 +33,17 @@ export class Ship {
   
   destroy = () => {
     this.isDestroyed = true;
-    var newA = [];
-    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
-    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
-    newA[2] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
-    newA[3] = new Asteroid(this.p5, this.pos, this.r, this.p5.width, this.p5.height);
+    let color = {
+      r: 200,
+      g: 0,
+      b: 0,
+      a: 150 
+    }
+    let newA = [];
+    newA[0] = new Asteroid(this.p5, this.pos, this.r, color);
+    newA[1] = new Asteroid(this.p5, this.pos, this.r, color);
+    newA[2] = new Asteroid(this.p5, this.pos, this.r, color);
+    newA[3] = new Asteroid(this.p5, this.pos, this.r, color);
     return newA;
   }
 
