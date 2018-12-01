@@ -36,10 +36,10 @@ export default function sketch (p5) {
     p5.createCanvas(width, height);
 
     let astroidColor = {
-      r: 255,
-      g: 255,
-      b: 50,
-      a: 70
+      r: 0,
+      g: 0,
+      b: 0,
+      a: 0
     };
 
     ship = new Ship(p5, rocket);
@@ -52,35 +52,58 @@ export default function sketch (p5) {
     p5.background(0);
   
     // renders all asteriods
-    for (var i = 0; i < asteroids.length; i++) {
-      if ( ship.hits(asteroids[i]) && !ship.destroyed() ) {
+    let flagActive = false;
+    for (const asteroid of asteroids) {
+
+      // ship collision 
+      if ( ship.hits(asteroid) && !ship.destroyed() ) {
         crashSound.play();
         let shipFrags = ship.destroy();
         asteroids = asteroids.concat(shipFrags);
       }
-      asteroids[i].render();
-      asteroids[i].update();
-      asteroids[i].edges();
+
+      // active asteriod
+      if (asteroid.activated()) {
+        flagActive = true;
+      }
+
+      asteroid.render();
+      asteroid.update();
+      asteroid.edges();
+    }
+
+    // activate an asteroid if none found
+    if (!flagActive) {
+      const index = Math.floor(Math.random() * asteroids.length);
+      asteroids[index].activate();
     }
   
-    for (var i = lasers.length - 1; i >= 0; i--) {
-      lasers[i].render();
-      lasers[i].update();
-      if (lasers[i].offscreen()) {
+    for (var i = lasers.length - 1; i >= 0; --i) {
+      const laser = lasers[i];
+      laser.render();
+      laser.update();
+      if (laser.offscreen()) {
         lasers.splice(i, 1);
       } else {
-        for (var j = asteroids.length - 1; j >= 0; j--) {
-          if (lasers[i].hits(asteroids[j])) {
-            if (asteroids[j].r > 9) {
-              crumbleSound.play();
-              var newAsteroids = asteroids[j].breakup();
-              asteroids = asteroids.concat(newAsteroids);
-            } else {
-              coinSound.play();
-            }
 
-            asteroids.splice(j, 1);
-            lasers.splice(i, 1);
+        // check collision with asteroids
+        for (var j = asteroids.length - 1; j >= 0; --j) {
+          const asteroid = asteroids[j];
+
+          if (laser.hits(asteroid)) {
+            lasers.splice(i, 1); 
+
+            if (asteroid.activated()) {
+              if (asteroid.r > 9) {
+                crumbleSound.play();
+                const smallerAsteroids = asteroid.breakup();
+                asteroids = asteroids.concat(smallerAsteroids);
+              } else {
+                coinSound.play();
+              }
+
+              asteroids.splice(j, 1);
+            }
             break;
           }
         }

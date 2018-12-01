@@ -3,9 +3,16 @@ import p5 from 'p5'
 export class Asteroid {
 
   // color os expected to be {r, g, b, a}
-  constructor(p5instance, pos, r, color) {
+  constructor(p5instance, pos, r, color, active = false) {
     this.p5 = p5instance;
     this.color = color;
+    this.active = active;
+    this.activeColor = {
+      r: 255,
+      g: 202,
+      b: 0,
+      a: 70 
+    };
 
     if (pos) {
       this.pos = pos.copy();
@@ -26,14 +33,28 @@ export class Asteroid {
     }
   }
   
+  activate = () => {
+    this.active = true;
+  }
+
+  activated = () => {
+    return this.active;
+  }
+
   update = () => {
     this.pos.add(this.vel);
   }
   
   render = () => {
     this.p5.push();
-    this.p5.stroke(255);
-    this.p5.fill(this.color.r, this.color.g, this.color.b, this.color.a);
+
+    if (this.active == true) {
+      this.p5.stroke(255);
+      this.p5.fill(this.activeColor.r, this.activeColor.g, this.activeColor.b, this.activeColor.a);
+    } else {
+      this.p5.stroke(255, 255, 255, 100);
+      this.p5.fill(this.color.r, this.color.g, this.color.b, this.color.a);
+    }
     this.p5.translate(this.pos.x, this.pos.y);
 
     //ellipse(0, 0, this.r * 2);
@@ -53,9 +74,9 @@ export class Asteroid {
   // returns an array of new Asteriods
   breakup = () => {
     var newA = [];
-    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.color);
-    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.color);
-    newA[2] = new Asteroid(this.p5, this.pos, this.r, this.color);
+    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.color, this.active);
+    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.color, this.active);
+    newA[2] = new Asteroid(this.p5, this.pos, this.r, this.color, this.active);
     return newA;
   }
   
