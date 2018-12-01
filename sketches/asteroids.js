@@ -16,7 +16,7 @@ export default function sketch (p5) {
   let boosterSound;
 
   p5.preload = () => {
-    rocket = p5.loadImage('static/rocketSeller.png');
+    rocket = p5.loadImage('static/rocket.png');
   }
 
   p5.setup = () => {
@@ -110,6 +110,6 @@ export default function sketch (p5) {
     } else if (event.keyCode == p5.UP_ARROW) {
       ship.boosting(true);
     }
-    event.preventDefault;
+    return false; 
   }
 }

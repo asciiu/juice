@@ -87,12 +87,6 @@ export class Ship {
       //this.p5.fill(red, green, blue, alpha);
       //this.p5.stroke(0);
       //this.p5.triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
-      this.p5.image(this.rocket.image, 
-                    -this.rocket.width/2, 
-                    -this.rocket.height/2, 
-                    this.rocket.width, 
-                    this.rocket.height);
-
       for (let i = this.particles.length-1; i > 0; --i) {
         this.particles[i].update();
         this.particles[i].show();
@@ -100,6 +94,12 @@ export class Ship {
           this.particles.splice(i, 1);
         }
       }
+
+      this.p5.image(this.rocket.image, 
+        -this.rocket.width/2, 
+        -this.rocket.height/2, 
+        this.rocket.width, 
+        this.rocket.height);
 
       this.p5.pop();
     }
