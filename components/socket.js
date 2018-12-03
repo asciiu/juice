@@ -6,7 +6,7 @@ export class GameSocket {
   }
 
   onMessage = (evt) => {
-    console.log(evt.data);
+    //console.log(evt.data);
     this.messages = this.messages.concat([evt.data]);
   }
 

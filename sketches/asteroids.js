@@ -23,7 +23,6 @@ export default function sketch (p5) {
   p5.cleanUp = () => {
     p5.remove();
     socket.close();
-    console.log('cleanup');
   }
 
   p5.setup = () => {

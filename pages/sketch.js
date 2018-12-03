@@ -1,6 +1,6 @@
 import Layout from '../components/layout'
 import Asteroids from '../sketches/asteroids'
-import P5Wrapper from '../components/P5Wrapper'
+import P5Wrapper from '../components/p5Wrapper'
 
 class Sketch extends React.Component {
   constructor(props) {
