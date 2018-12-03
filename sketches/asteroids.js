@@ -1,7 +1,7 @@
 import {Ship} from './ship.js'
 import {Laser} from './laser.js'
 import {Asteroid} from './asteroid.js'
-import p7 from 'p5'
+import {GameSocket} from '../components/socket'
 import 'p5/lib/addons/p5.sound'
 
 export default function sketch (p5) {
@@ -14,9 +14,16 @@ export default function sketch (p5) {
   let coinSound;
   let rocket;
   let boosterSound;
+  let socket = new GameSocket('ws://192.168.99.100:32000/ws');
 
   p5.preload = () => {
     rocket = p5.loadImage('static/rocket.png');
+  }
+
+  p5.cleanUp = () => {
+    p5.remove();
+    socket.close();
+    console.log('cleanup');
   }
 
   p5.setup = () => {
@@ -46,6 +53,7 @@ export default function sketch (p5) {
     for (var i = 0; i < 9; i++) {
       asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
     }
+    socket.connect();
   }
 
   p5.draw = () => {
