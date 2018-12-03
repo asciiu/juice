@@ -1,4 +1,4 @@
-import Layout from '../components/MyLayout.js'
+import Layout from '../components/layout'
 
 class LeSocket extends React.Component {
   constructor(props) {

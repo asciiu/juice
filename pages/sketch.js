@@ -1,4 +1,4 @@
-import Layout from '../components/MyLayout.js'
+import Layout from '../components/layout'
 import Asteroids from '../sketches/asteroids'
 import P5Wrapper from '../components/P5Wrapper'
 
