@@ -16,6 +16,10 @@ export default function sketch (p5) {
   let boosterSound;
   let socket = new GameSocket('ws://192.168.99.100:32000/ws');
 
+  let onSocketMessage = (evt) => {
+    console.log(evt.data);
+  }
+  
   p5.preload = () => {
     rocket = p5.loadImage('static/rocket.png');
   }
@@ -52,7 +56,7 @@ export default function sketch (p5) {
     for (var i = 0; i < 9; i++) {
       asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
     }
-    socket.connect();
+    socket.connect(onSocketMessage);
   }
 
   p5.draw = () => {

@@ -5,15 +5,11 @@ export class GameSocket {
     this.connection = null;
   }
 
-  onMessage = (evt) => {
-    //console.log(evt.data);
-    this.messages = this.messages.concat([evt.data]);
-  }
-
-  connect = () => {
+  // callback is function(evt)
+  connect = (callback) => {
     this.connection = new WebSocket(this.url);
-    // listen to onmessage event
-    this.connection.onmessage = this.onMessage; 
+    // onmessage should be forwarded to the callback 
+    this.connection.onmessage = callback; 
     console.log("opened");
   }
 
