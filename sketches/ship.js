@@ -80,13 +80,10 @@ export class Ship {
   
   render = () => {
     if (!this.isDestroyed) {
-      let {red, green, blue, alpha} = this.color;
       this.p5.push();
       this.p5.translate(this.pos.x, this.pos.y);
       this.p5.rotate(this.heading + this.p5.PI / 2);
-      //this.p5.fill(red, green, blue, alpha);
-      //this.p5.stroke(0);
-      //this.p5.triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
+
       for (let i = this.particles.length-1; i > 0; --i) {
         this.particles[i].update();
         this.particles[i].show();

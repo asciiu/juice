@@ -3,6 +3,7 @@ import {Laser} from './laser.js'
 import {Asteroid} from './asteroid.js'
 import {GameSocket} from '../components/socket'
 import 'p5/lib/addons/p5.sound'
+import { SSL_OP_NO_TICKET } from 'constants';
 
 export default function sketch (p5) {
   let ship;
@@ -18,6 +19,10 @@ export default function sketch (p5) {
 
   let onSocketMessage = (evt) => {
     console.log(evt.data);
+  }
+
+  let onSocketConnected = (evt) => {
+    socket.send({setup: "ship"});
   }
   
   p5.preload = () => {
@@ -52,11 +57,12 @@ export default function sketch (p5) {
       a: 0
     };
 
+    socket.connect(onSocketMessage, onSocketConnected);
+
     ship = new Ship(p5, rocket);
     for (var i = 0; i < 9; i++) {
       asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
     }
-    socket.connect(onSocketMessage);
   }
 
   p5.draw = () => {
@@ -136,6 +142,7 @@ export default function sketch (p5) {
 
     if (event.key == ' ' && !ship.destroyed()) {
       laserSound.play();
+      socket.send({laser: "laser"});
       lasers.push(new Laser(p5, ship.pos, ship.heading));
     } else if (event.keyCode == p5.RIGHT_ARROW) {
       ship.setRotation(0.1);

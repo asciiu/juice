@@ -6,10 +6,11 @@ export class GameSocket {
   }
 
   // callback is function(evt)
-  connect = (callback) => {
+  connect = (onMessage, onOpen) => {
     this.connection = new WebSocket(this.url);
     // onmessage should be forwarded to the callback 
-    this.connection.onmessage = callback; 
+    this.connection.onmessage = onMessage; 
+    this.connection.onopen = onOpen
     console.log("opened");
   }
 
@@ -19,6 +20,6 @@ export class GameSocket {
   }
 
   send = (json) => {
-    this.connection.send( Math.random() )
+    this.connection.send(JSON.stringify(json));
   }
 }
