@@ -90,7 +90,7 @@ export default function sketch (p5) {
     }
 
     // activate an asteroid if none found
-    if (!flagActive) {
+    if (!flagActive && asteroids.length > 0) {
       const index = Math.floor(Math.random() * asteroids.length);
       asteroids[index].activate();
     }
