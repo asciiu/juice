@@ -22,7 +22,7 @@ export default function sketch (p5) {
   }
 
   let onSocketConnected = (evt) => {
-    socket.send({setup: "ship"});
+    socket.send({setup: "ship", width: p5.width, height: p5.height});
   }
   
   p5.preload = () => {
@@ -46,8 +46,8 @@ export default function sketch (p5) {
     laserSound.setVolume(0.1);
     coinSound.setVolume(0.5);
 
-    let width = 2*p5.windowWidth/3;
-    let height = 3*p5.windowHeight/4; 
+    let width = Math.floor(2*p5.windowWidth/3);
+    let height = Math.floor(3*p5.windowHeight/4); 
     p5.createCanvas(width, height);
 
     let astroidColor = {
