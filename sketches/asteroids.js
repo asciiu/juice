@@ -16,13 +16,15 @@ export default function sketch (p5) {
   let rocketImage;
   let boosterSound;
   let socket = new GameSocket('ws://192.168.99.100:32000/ws');
+  const TopicShipSetup = "ship-setup"
+  const TtopicShipBoost = "ship-boost"
 
   let onSocketMessage = (evt) => {
     let jsonres = JSON.parse(evt.data);
     console.log(jsonres);
 
     switch (jsonres.topic) {
-      case "ship-setup": {
+      case TopicShipSetup: {
         const opts = {
           clientID: jsonres.clientID,
           image: rocketImage,
@@ -34,11 +36,14 @@ export default function sketch (p5) {
         }
         ship = new Ship(opts);
       }
+      case TtopicShipBoost: {
+        ship.boosting(jsonres.boost);
+      }
     }
   }
 
   let onSocketConnected = (evt) => {
-    socket.send({topic: "ship-setup", screenWidth: p5.width, screenHeight: p5.height});
+    socket.send({topic: TopicShipSetup, screenWidth: p5.width, screenHeight: p5.height});
   }
   
   p5.preload = () => {
@@ -153,7 +158,7 @@ export default function sketch (p5) {
   
   p5.keyReleased = (event) => {
     ship.setRotation(0);
-    ship.boosting(false);
+    socket.send({topic: TtopicShipBoost, boost: false});
   }
   
   p5.keyPressed = (event) => {
@@ -167,7 +172,7 @@ export default function sketch (p5) {
     } else if (event.keyCode == p5.LEFT_ARROW) {
       ship.setRotation(-0.1);
     } else if (event.keyCode == p5.UP_ARROW) {
-      ship.boosting(true);
+      socket.send({topic: TtopicShipBoost, boost: true});
     }
     return false; 
   }
