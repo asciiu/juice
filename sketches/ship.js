@@ -3,9 +3,10 @@ import {Asteroid} from './asteroid.js'
 import {Particle} from './particle.js'
 
 export class Ship {
-  constructor(p5instance, image) {
+  constructor(clientID, p5instance, image, x, y) {
+    this.clientID = clientID;
     this.p5 = p5instance;
-    this.pos = p5instance.createVector(p5instance.width/2, p5instance.height/2);
+    this.pos = p5instance.createVector(x, y);
     this.r = 6;
     this.heading = 0;
     this.rotation = 0;

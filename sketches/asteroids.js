@@ -13,12 +13,16 @@ export default function sketch (p5) {
   let crumbleSound;
   let laserSound;
   let coinSound;
-  let rocket;
+  let rocketImage;
   let boosterSound;
   let socket = new GameSocket('ws://192.168.99.100:32000/ws');
 
   let onSocketMessage = (evt) => {
-    console.log(evt.data);
+    let jsonres = JSON.parse(evt.data);
+    console.log(jsonres);
+
+    let clientID = jsonres.clientID;
+    ship = new Ship(clientID, p5, rocketImage, jsonres.x, jsonres.y);
   }
 
   let onSocketConnected = (evt) => {
@@ -26,7 +30,7 @@ export default function sketch (p5) {
   }
   
   p5.preload = () => {
-    rocket = p5.loadImage('static/rocket.png');
+    rocketImage = p5.loadImage('static/rocket.png');
   }
 
   p5.cleanUp = () => {
@@ -59,7 +63,7 @@ export default function sketch (p5) {
 
     socket.connect(onSocketMessage, onSocketConnected);
 
-    ship = new Ship(p5, rocket);
+    //ship = new Ship(p5, rocket);
     for (var i = 0; i < 9; i++) {
       asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
     }
@@ -73,7 +77,7 @@ export default function sketch (p5) {
     for (const asteroid of asteroids) {
 
       // ship collision 
-      if ( ship.hits(asteroid) && !ship.destroyed() ) {
+      if ( ship != null && ship.hits(asteroid) && !ship.destroyed() ) {
         crashSound.play();
         let shipFrags = ship.destroy();
         asteroids = asteroids.concat(shipFrags);
@@ -127,10 +131,12 @@ export default function sketch (p5) {
       }
     }
   
-    ship.render();
-    ship.turn();
-    ship.update();
-    ship.edges();
+    if (ship != null) {
+      ship.render();
+      ship.turn();
+      ship.update();
+      ship.edges();
+    }
   }
   
   p5.keyReleased = (event) => {
