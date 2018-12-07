@@ -23,14 +23,22 @@ export default function sketch (p5) {
 
     switch (jsonres.topic) {
       case "ship-setup": {
-        let clientID = jsonres.clientID;
-        ship = new Ship(clientID, p5, rocketImage, jsonres.x, jsonres.y);
+        const opts = {
+          clientID: jsonres.clientID,
+          image: rocketImage,
+          width: 15,
+          height: 20,
+          x: jsonres.x,
+          y: jsonres.y,
+          p5ptr: p5,
+        }
+        ship = new Ship(opts);
       }
     }
   }
 
   let onSocketConnected = (evt) => {
-    socket.send({topic: "ship-setup", width: p5.width, height: p5.height});
+    socket.send({topic: "ship-setup", screenWidth: p5.width, screenHeight: p5.height});
   }
   
   p5.preload = () => {

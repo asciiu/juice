@@ -3,20 +3,33 @@ import {Asteroid} from './asteroid.js'
 import {Particle} from './particle.js'
 
 export class Ship {
-  constructor(clientID, p5instance, image, x, y) {
-    this.clientID = clientID;
+  constructor({
+    clientID: id, 
+    p5ptr: p5instance, 
+    image: img, 
+    width: w,
+    height: h,
+    x: x, 
+    y:y, 
+    radius: rad = 6,
+    rotation: radian = 0,
+  }) {
+
+    this.clientID = id;
     this.p5 = p5instance;
     this.pos = p5instance.createVector(x, y);
-    this.r = 6;
-    this.heading = 0;
-    this.rotation = 0;
+
+    this.radius = rad;
+    this.heading = radian;
+    this.rotation = radian;
+
     this.vel = p5instance.createVector(0, 0);
     this.isBoosting = false;
     this.isDestroyed = false;
     this.rocket = {
-      width: 15,
-      height: 20,
-      image: image
+      width: w,
+      height: h,
+      image: img
     }
     this.color = {
       red: 0,
@@ -41,10 +54,10 @@ export class Ship {
       a: 150 
     }
     let newA = [];
-    newA[0] = new Asteroid(this.p5, this.pos, this.r, color);
-    newA[1] = new Asteroid(this.p5, this.pos, this.r, color);
-    newA[2] = new Asteroid(this.p5, this.pos, this.r, color);
-    newA[3] = new Asteroid(this.p5, this.pos, this.r, color);
+    newA[0] = new Asteroid(this.p5, this.pos, this.radius, color);
+    newA[1] = new Asteroid(this.p5, this.pos, this.radius, color);
+    newA[2] = new Asteroid(this.p5, this.pos, this.radius, color);
+    newA[3] = new Asteroid(this.p5, this.pos, this.radius, color);
     return newA;
   }
 
@@ -72,7 +85,7 @@ export class Ship {
   
   hits = (asteroid) => {
     let d = this.p5.dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
-    if (d < this.r + asteroid.r && !this.isDestroyed) {
+    if (d < this.radius + asteroid.r && !this.isDestroyed) {
       return true;
     } else {
       return false;
@@ -104,20 +117,20 @@ export class Ship {
   };
   
   edges = () => {
-    if (this.pos.x > this.p5.width + this.r) {
-      this.pos.x = -this.r;
-    } else if (this.pos.x < -this.r) {
-      this.pos.x = this.p5.width + this.r;
+    if (this.pos.x > this.p5.width + this.radius) {
+      this.pos.x = -this.radius;
+    } else if (this.pos.x < -this.radius) {
+      this.pos.x = this.p5.width + this.radius;
     }
-    if (this.pos.y > this.p5.height + this.r) {
-      this.pos.y = -this.r;
-    } else if (this.pos.y < -this.r) {
-      this.pos.y = this.p5.height + this.r;
+    if (this.pos.y > this.p5.height + this.radius) {
+      this.pos.y = -this.radius;
+    } else if (this.pos.y < -this.radius) {
+      this.pos.y = this.p5.height + this.radius;
     }
   }
   
-  setRotation = (a) => {
-    this.rotation = a;
+  setRotation = (radian) => {
+    this.rotation = radian;
   }
   
   turn = () => {
