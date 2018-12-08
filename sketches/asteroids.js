@@ -17,28 +17,34 @@ export default function sketch (p5) {
   let boosterSound;
   let socket = new GameSocket('ws://192.168.99.100:32000/ws');
   const TopicShipSetup = "ship-setup"
-  const TtopicShipBoost = "ship-boost"
+  const TopicShipBoost = "ship-boost"
 
   let onSocketMessage = (evt) => {
-    let jsonres = JSON.parse(evt.data);
-    console.log(jsonres);
+    try {
+      let jsonres = JSON.parse(evt.data);
 
-    switch (jsonres.topic) {
-      case TopicShipSetup: {
-        const opts = {
-          clientID: jsonres.clientID,
-          image: rocketImage,
-          width: 15,
-          height: 20,
-          x: jsonres.x,
-          y: jsonres.y,
-          p5ptr: p5,
+      switch (jsonres.topic) {
+        case TopicShipSetup: {
+          const opts = {
+            clientID: jsonres.clientID,
+            image: rocketImage,
+            width: 15,
+            height: 20,
+            x: jsonres.x,
+            y: jsonres.y,
+            p5ptr: p5,
+          }
+          ship = new Ship(opts);
         }
-        ship = new Ship(opts);
+        case TopicShipBoost: {
+          ship.boosting(jsonres.boost);
+        }
       }
-      case TtopicShipBoost: {
-        ship.boosting(jsonres.boost);
-      }
+    }
+    catch(err) {
+      // ignore SyntaxError: Unexpected token {
+      // results from JSON.parse above
+      console.log(`ERROR: ${err}`);
     }
   }
 
@@ -158,7 +164,7 @@ export default function sketch (p5) {
   
   p5.keyReleased = (event) => {
     ship.setRotation(0);
-    socket.send({topic: TtopicShipBoost, boost: false});
+    socket.send({topic: TopicShipBoost, boost: false});
   }
   
   p5.keyPressed = (event) => {
@@ -172,7 +178,7 @@ export default function sketch (p5) {
     } else if (event.keyCode == p5.LEFT_ARROW) {
       ship.setRotation(-0.1);
     } else if (event.keyCode == p5.UP_ARROW) {
-      socket.send({topic: TtopicShipBoost, boost: true});
+      socket.send({topic: TopicShipBoost, boost: true});
     }
     return false; 
   }
