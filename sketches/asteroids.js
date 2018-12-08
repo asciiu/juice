@@ -4,6 +4,7 @@ import {Asteroid} from './asteroid.js'
 import {GameSocket} from '../components/socket'
 import 'p5/lib/addons/p5.sound'
 import { SSL_OP_NO_TICKET } from 'constants';
+import uuid from 'uuid'
 
 export default function sketch (p5) {
   let lasers = [];
@@ -14,12 +15,14 @@ export default function sketch (p5) {
   let coinSound;
   let rocketImage;
   let boosterSound;
+  const clientID = uuid.v1()
   const socket = new GameSocket('ws://192.168.99.100:32000/ws');
   const TopicShipSetup = "ship-setup"
   const TopicShipBoost = "ship-boost"
   const TopicShipRotation = "ship-rotation"
   const TopicShipLaser = "ship-laser"
   const players = [];
+  console.log(clientID);
 
   let onSocketMessage = (evt) => {
     try {
@@ -38,27 +41,26 @@ export default function sketch (p5) {
               p5ptr: p5,
             }
             players.push(new Ship(opts));
-            break;
+            continue;
           }
 
           case TopicShipBoost: {
             const player = players.find( p => p.clientID == json.clientID)
             player.boosting(json.boost);
-            break;
+            continue;
           }
 
           case TopicShipRotation: {
             const player = players.find( p => p.clientID == json.clientID)
             player.setRotation(parseFloat(json.radian));
-            break;
+            continue;
           }
 
           case TopicShipLaser: {
             const player = players.find( p => p.clientID == json.clientID)
             laserSound.play();
             lasers.push(new Laser(p5, player.pos, player.heading));
-
-            break;
+            continue;
           }
         }
       }
@@ -73,7 +75,11 @@ export default function sketch (p5) {
   }
 
   let onSocketConnected = (evt) => {
-    socket.send([{topic: TopicShipSetup, screenWidth: p5.width, screenHeight: p5.height}]);
+    socket.send([{
+      topic: TopicShipSetup, 
+      clientID: clientID, 
+      screenWidth: p5.width, 
+      screenHeight: p5.height}]);
   }
   
   p5.preload = () => {
@@ -179,22 +185,24 @@ export default function sketch (p5) {
   }
   
   p5.keyReleased = (event) => {
-    socket.send([
-      {topic: TopicShipBoost, boost: false},
-      {topic: TopicShipRotation, radian: 0.0}
-    ]);
+    if (event.key != ' ') {
+      socket.send([
+        {topic: TopicShipBoost, clientID: clientID, boost: false},
+        {topic: TopicShipRotation, clientID: clientID, radian: 0.0}
+      ]);
+    }
   }
   
   p5.keyPressed = (event) => {
-    //if (event.key == ' ' && !ship.destroyed()) {
-    if (event.key == ' ') {
-      socket.send([{topic: TopicShipLaser}]);
+    const player = players.find( p => p.clientID === clientID)
+    if (event.key == ' ' && !player.destroyed()) {
+      socket.send([{topic: TopicShipLaser, clientID: clientID}]);
     } else if (event.keyCode == p5.RIGHT_ARROW) {
-      socket.send([{topic: TopicShipRotation, radian: 0.1}]);
+      socket.send([{topic: TopicShipRotation, clientID: clientID, radian: 0.1}]);
     } else if (event.keyCode == p5.LEFT_ARROW) {
-      socket.send([{topic: TopicShipRotation, radian: -0.1}]);
+      socket.send([{topic: TopicShipRotation, clientID: clientID, radian: -0.1}]);
     } else if (event.keyCode == p5.UP_ARROW) {
-      socket.send([{topic: TopicShipBoost, boost: true}]);
+      socket.send([{topic: TopicShipBoost, clientID: clientID, boost: true}]);
     }
     return false; 
   }
