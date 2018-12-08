@@ -56,6 +56,7 @@ export default function sketch (p5) {
       // 12/7/18
       // ignore SyntaxError: Unexpected token {
       // results from JSON.parse above
+      // this might be fixed now that the messages are handled as an array
       console.log(`ERROR: ${err}`);
     }
   }
@@ -173,7 +174,6 @@ export default function sketch (p5) {
   }
   
   p5.keyReleased = (event) => {
-    //ship.setRotation(0);
     socket.send([
       {topic: TopicShipBoost, boost: false},
       {topic: TopicShipRotation, radian: 0.0}
@@ -181,17 +181,14 @@ export default function sketch (p5) {
   }
   
   p5.keyPressed = (event) => {
-
     if (event.key == ' ' && !ship.destroyed()) {
       laserSound.play();
       socket.send({laser: "laser"});
       lasers.push(new Laser(p5, ship.pos, ship.heading));
     } else if (event.keyCode == p5.RIGHT_ARROW) {
       socket.send([{topic: TopicShipRotation, radian: 0.1}]);
-      //ship.setRotation(0.1);
     } else if (event.keyCode == p5.LEFT_ARROW) {
       socket.send([{topic: TopicShipRotation, radian: -0.1}]);
-      //ship.setRotation(-0.1);
     } else if (event.keyCode == p5.UP_ARROW) {
       socket.send([{topic: TopicShipBoost, boost: true}]);
     }
