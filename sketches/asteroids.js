@@ -6,7 +6,6 @@ import 'p5/lib/addons/p5.sound'
 import { SSL_OP_NO_TICKET } from 'constants';
 
 export default function sketch (p5) {
-  let ship;
   let lasers = [];
   let asteroids = [];
   let crashSound;
@@ -15,14 +14,16 @@ export default function sketch (p5) {
   let coinSound;
   let rocketImage;
   let boosterSound;
-  let socket = new GameSocket('ws://192.168.99.100:32000/ws');
+  const socket = new GameSocket('ws://192.168.99.100:32000/ws');
   const TopicShipSetup = "ship-setup"
   const TopicShipBoost = "ship-boost"
   const TopicShipRotation = "ship-rotation"
+  const TopicShipLaser = "ship-laser"
+  const players = [];
 
   let onSocketMessage = (evt) => {
     try {
-      let jsonres = JSON.parse(evt.data);
+      const jsonres = JSON.parse(evt.data);
 
       for (const json of jsonres) {
         switch (json.topic) {
@@ -36,17 +37,27 @@ export default function sketch (p5) {
               y: json.y,
               p5ptr: p5,
             }
-            ship = new Ship(opts);
+            players.push(new Ship(opts));
             break;
           }
 
           case TopicShipBoost: {
-            ship.boosting(json.boost);
+            const player = players.find( p => p.clientID == json.clientID)
+            player.boosting(json.boost);
             break;
           }
 
           case TopicShipRotation: {
-            ship.setRotation(parseFloat(json.radian));
+            const player = players.find( p => p.clientID == json.clientID)
+            player.setRotation(parseFloat(json.radian));
+            break;
+          }
+
+          case TopicShipLaser: {
+            const player = players.find( p => p.clientID == json.clientID)
+            laserSound.play();
+            lasers.push(new Laser(p5, player.pos, player.heading));
+
             break;
           }
         }
@@ -86,21 +97,15 @@ export default function sketch (p5) {
     laserSound.setVolume(0.1);
     coinSound.setVolume(0.5);
 
-    let width = Math.floor(2*p5.windowWidth/3);
-    let height = Math.floor(3*p5.windowHeight/4); 
+    const width = Math.floor(2*p5.windowWidth/3);
+    const height = Math.floor(3*p5.windowHeight/4); 
     p5.createCanvas(width, height);
-
-    let astroidColor = {
-      r: 0,
-      g: 0,
-      b: 0,
-      a: 0
-    };
-
     socket.connect(onSocketMessage, onSocketConnected);
-    for (var i = 0; i < 9; i++) {
-      asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
-    }
+
+    //const astroidColor = {r: 0, g: 0, b: 0, a: 0};
+    //for (var i = 0; i < 9; i++) {
+    //  asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
+    //}
   }
 
   p5.draw = () => {
@@ -165,11 +170,11 @@ export default function sketch (p5) {
       }
     }
   
-    if (ship != null) {
-      ship.render();
-      ship.turn();
-      ship.update();
-      ship.edges();
+    for (const player of players) {
+      player.render();
+      player.turn();
+      player.update();
+      player.edges();
     }
   }
   
@@ -181,10 +186,9 @@ export default function sketch (p5) {
   }
   
   p5.keyPressed = (event) => {
-    if (event.key == ' ' && !ship.destroyed()) {
-      laserSound.play();
-      socket.send({laser: "laser"});
-      lasers.push(new Laser(p5, ship.pos, ship.heading));
+    //if (event.key == ' ' && !ship.destroyed()) {
+    if (event.key == ' ') {
+      socket.send([{topic: TopicShipLaser}]);
     } else if (event.keyCode == p5.RIGHT_ARROW) {
       socket.send([{topic: TopicShipRotation, radian: 0.1}]);
     } else if (event.keyCode == p5.LEFT_ARROW) {
