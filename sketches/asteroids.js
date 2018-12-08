@@ -18,30 +18,42 @@ export default function sketch (p5) {
   let socket = new GameSocket('ws://192.168.99.100:32000/ws');
   const TopicShipSetup = "ship-setup"
   const TopicShipBoost = "ship-boost"
+  const TopicShipRotation = "ship-rotation"
 
   let onSocketMessage = (evt) => {
     try {
       let jsonres = JSON.parse(evt.data);
 
-      switch (jsonres.topic) {
-        case TopicShipSetup: {
-          const opts = {
-            clientID: jsonres.clientID,
-            image: rocketImage,
-            width: 15,
-            height: 20,
-            x: jsonres.x,
-            y: jsonres.y,
-            p5ptr: p5,
+      for (const json of jsonres) {
+        switch (json.topic) {
+          case TopicShipSetup: {
+            const opts = {
+              clientID: json.clientID,
+              image: rocketImage,
+              width: 15,
+              height: 20,
+              x: json.x,
+              y: json.y,
+              p5ptr: p5,
+            }
+            ship = new Ship(opts);
+            break;
           }
-          ship = new Ship(opts);
-        }
-        case TopicShipBoost: {
-          ship.boosting(jsonres.boost);
+
+          case TopicShipBoost: {
+            ship.boosting(json.boost);
+            break;
+          }
+
+          case TopicShipRotation: {
+            ship.setRotation(parseFloat(json.radian));
+            break;
+          }
         }
       }
     }
     catch(err) {
+      // 12/7/18
       // ignore SyntaxError: Unexpected token {
       // results from JSON.parse above
       console.log(`ERROR: ${err}`);
@@ -49,7 +61,7 @@ export default function sketch (p5) {
   }
 
   let onSocketConnected = (evt) => {
-    socket.send({topic: TopicShipSetup, screenWidth: p5.width, screenHeight: p5.height});
+    socket.send([{topic: TopicShipSetup, screenWidth: p5.width, screenHeight: p5.height}]);
   }
   
   p5.preload = () => {
@@ -85,8 +97,6 @@ export default function sketch (p5) {
     };
 
     socket.connect(onSocketMessage, onSocketConnected);
-
-    //ship = new Ship(p5, rocket);
     for (var i = 0; i < 9; i++) {
       asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
     }
@@ -163,8 +173,11 @@ export default function sketch (p5) {
   }
   
   p5.keyReleased = (event) => {
-    ship.setRotation(0);
-    socket.send({topic: TopicShipBoost, boost: false});
+    //ship.setRotation(0);
+    socket.send([
+      {topic: TopicShipBoost, boost: false},
+      {topic: TopicShipRotation, radian: 0.0}
+    ]);
   }
   
   p5.keyPressed = (event) => {
@@ -174,11 +187,13 @@ export default function sketch (p5) {
       socket.send({laser: "laser"});
       lasers.push(new Laser(p5, ship.pos, ship.heading));
     } else if (event.keyCode == p5.RIGHT_ARROW) {
-      ship.setRotation(0.1);
+      socket.send([{topic: TopicShipRotation, radian: 0.1}]);
+      //ship.setRotation(0.1);
     } else if (event.keyCode == p5.LEFT_ARROW) {
-      ship.setRotation(-0.1);
+      socket.send([{topic: TopicShipRotation, radian: -0.1}]);
+      //ship.setRotation(-0.1);
     } else if (event.keyCode == p5.UP_ARROW) {
-      socket.send({topic: TopicShipBoost, boost: true});
+      socket.send([{topic: TopicShipBoost, boost: true}]);
     }
     return false; 
   }
