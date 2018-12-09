@@ -15,6 +15,7 @@ export default function sketch (p5) {
   let coinSound;
   let rocketImage;
   let boosterSound;
+  let player;
   const clientID = uuid.v1()
   const socket = new GameSocket('ws://192.168.99.100:32000/ws');
   const TopicShipSetup = "ship-setup"
@@ -22,9 +23,8 @@ export default function sketch (p5) {
   const TopicShipRotation = "ship-rotation"
   const TopicShipLaser = "ship-laser"
   const players = [];
-  console.log(clientID);
 
-  let onSocketMessage = (evt) => {
+  const onSocketMessage = (evt) => {
     try {
       const jsonres = JSON.parse(evt.data);
 
@@ -40,7 +40,11 @@ export default function sketch (p5) {
               y: json.y,
               p5ptr: p5,
             }
-            players.push(new Ship(opts));
+
+            if (player == undefined) {
+              player = new Ship(opts); 
+            }
+            players.push(player);
             continue;
           }
 
@@ -74,12 +78,25 @@ export default function sketch (p5) {
     }
   }
 
-  let onSocketConnected = (evt) => {
-    socket.send([{
-      topic: TopicShipSetup, 
-      clientID: clientID, 
-      screenWidth: p5.width, 
-      screenHeight: p5.height}]);
+  const onSocketConnected = (evt) => {
+    if (player == undefined) { 
+      socket.send([{
+        topic: TopicShipSetup, 
+        clientID: clientID, 
+        screenWidth: p5.width, 
+        screenHeight: p5.height
+      }]);
+    }
+  }
+
+  const onSocketClosed = (closeEvt) => {
+    socket.close();
+    console.log("reconnect socket")
+    socket.connect({
+      onMessage: onSocketMessage, 
+      onOpen: onSocketConnected, 
+      onClose: onSocketClosed
+    });
   }
   
   p5.preload = () => {
@@ -106,7 +123,11 @@ export default function sketch (p5) {
     const width = Math.floor(2*p5.windowWidth/3);
     const height = Math.floor(3*p5.windowHeight/4); 
     p5.createCanvas(width, height);
-    socket.connect(onSocketMessage, onSocketConnected);
+    socket.connect({
+      onMessage: onSocketMessage, 
+      onOpen: onSocketConnected, 
+      onClose: onSocketClosed
+    });
 
     //const astroidColor = {r: 0, g: 0, b: 0, a: 0};
     //for (var i = 0; i < 9; i++) {

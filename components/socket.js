@@ -6,11 +6,12 @@ export class GameSocket {
   }
 
   // callback is function(evt)
-  connect = (onMessage, onOpen) => {
+  connect = ({onMessage: onMessage, onOpen: onOpen, onClose: onClose}) => {
     this.connection = new WebSocket(this.url);
     // onmessage should be forwarded to the callback 
     this.connection.onmessage = onMessage; 
-    this.connection.onopen = onOpen
+    this.connection.onopen = onOpen;
+    this.connection.onclose = onClose;
     console.log("opened");
   }
 
@@ -20,6 +21,13 @@ export class GameSocket {
   }
 
   send = (json) => {
-    this.connection.send(JSON.stringify(json));
+    try{
+      this.connection.send(JSON.stringify(json));
+    }
+    catch(err) {
+      this.close();
+      // gracefully handle socket send errors 
+      console.log(`ERROR: ${err}`);
+    }
   }
 }
