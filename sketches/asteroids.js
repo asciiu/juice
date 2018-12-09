@@ -18,7 +18,7 @@ export default function sketch (p5) {
   let player;
   const clientID = uuid.v1()
   const socket = new GameSocket('ws://192.168.99.100:32000/ws');
-  const TopicShipSetup = "ship-setup"
+  const TopicPlayerSetup = "player-setup"
   const TopicShipBoost = "ship-boost"
   const TopicShipRotation = "ship-rotation"
   const TopicShipLaser = "ship-laser"
@@ -30,7 +30,7 @@ export default function sketch (p5) {
 
       for (const json of jsonres) {
         switch (json.topic) {
-          case TopicShipSetup: {
+          case TopicPlayerSetup: {
             const opts = {
               clientID: json.clientID,
               image: rocketImage,
@@ -81,7 +81,7 @@ export default function sketch (p5) {
   const onSocketConnected = (evt) => {
     if (player == undefined) { 
       socket.send([{
-        topic: TopicShipSetup, 
+        topic: TopicPlayerSetup, 
         clientID: clientID, 
         screenWidth: p5.width, 
         screenHeight: p5.height

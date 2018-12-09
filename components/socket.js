@@ -12,22 +12,25 @@ export class GameSocket {
     this.connection.onmessage = onMessage; 
     this.connection.onopen = onOpen;
     this.connection.onclose = onClose;
-    console.log("opened");
+    this.t = setInterval(this.flush, 100);
   }
 
   close = () => {
+    clearInterval(this.t);
     this.connection.close();
-    console.log("closed");
   }
 
-  send = (json) => {
-    try{
-      this.connection.send(JSON.stringify(json));
+  flush = () => {
+    if (this.messages.length > 0) {
+      this.connection.send(JSON.stringify(this.messages));
+      this.messages = [];
     }
-    catch(err) {
-      this.close();
-      // gracefully handle socket send errors 
-      console.log(`ERROR: ${err}`);
+  }
+
+  // json is expected to be an array of json
+  send = (jsonarray) => {
+    for (const json of jsonarray) {
+      this.messages.push(json);
     }
   }
 }
