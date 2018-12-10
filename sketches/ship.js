@@ -11,11 +11,12 @@ export class Ship {
     height: h,
     x: x, 
     y:y, 
+    velocityX: vx = 0,
+    velocityY: vy = 0,
     radius: rad = 6,
     rotation: radian = 0,
     heading: heading = 0
   }) {
-
     this.clientID = id;
     this.p5 = p5instance;
     this.pos = p5instance.createVector(x, y);
@@ -24,7 +25,7 @@ export class Ship {
     this.heading = heading;
     this.rotation = radian;
 
-    this.vel = p5instance.createVector(0, 0);
+    this.vel = p5instance.createVector(vx, vy);
     this.isBoosting = false;
     this.isDestroyed = false;
     this.rocket = {
@@ -39,11 +40,6 @@ export class Ship {
       alpha: 200,
     }
     this.particles = [];
-  }
-  
-  // boost is true or false
-  boosting = (boost) => {
-    this.isBoosting = boost;
   }
   
   destroy = () => {
@@ -69,11 +65,20 @@ export class Ship {
   update = () => {
     if (this.isBoosting) {
       this.boost();
+    } else {
+      if (this.vel.x < 0.01) this.vel.x = 0;
+      if (this.vel.y < 0.01) this.vel.y = 0;
     }
     this.pos.add(this.vel);
     this.vel.mult(0.99);
+
   };
   
+  // boost is true or false
+  boosting = (boost) => {
+    this.isBoosting = boost;
+  }
+
   boost = () => {
       let force = p5.Vector.fromAngle(this.heading);
       force.mult(0.1);
@@ -130,6 +135,11 @@ export class Ship {
     }
   }
   
+  setPosition = (x, y) => {
+    this.pos.x = x;
+    this.pos.y = y;
+  }
+
   setRotation = (radian) => {
     this.rotation = radian;
   }

@@ -22,10 +22,11 @@ export default function sketch (p5) {
   const TopicPlayerRegister = "player-register";
   const TopicPlayerUnregister = "player-unregister";
   const TopicShipBoost = "ship-boost";
-  const TopicShipRotation = "ship-rotation";
-  const TopicShipLaser = "ship-laser";
   const TopicShipCoordinates = "ship-coordinates";
   const TopicShipHeading = "ship-heading";
+  const TopicShipLaser = "ship-laser";
+  const TopicShipRotation = "ship-rotation";
+  const TopicShipVelocity = "ship-velocity";
   const players = [];
 
   const onSocketMessage = (evt) => {
@@ -46,7 +47,9 @@ export default function sketch (p5) {
                 x: json.x,
                 y: json.y,
                 p5ptr: p5,
-                heading: json.heading
+                heading: json.heading,
+                velocityX: json.velocityX,
+                velocityY: json.velocityY
               }
 
               const ship = new Ship(opts); 
@@ -227,7 +230,8 @@ export default function sketch (p5) {
 
       socket.send([
         {topic: TopicShipCoordinates, clientID: p.clientID, x: p.pos.x, y: p.pos.y},
-        {topic: TopicShipHeading, clientID: p.clientID, heading: p.heading}
+        {topic: TopicShipHeading, clientID: p.clientID, heading: p.heading},
+        {topic: TopicShipVelocity, clientID: p.clientID, velocityX: p.vel.x, velocityY: p.vel.y}
       ]);
     }
   }

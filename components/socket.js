@@ -21,7 +21,7 @@ export class GameSocket {
   }
 
   flush = () => {
-    if (this.messages.length > 0) {
+    if (this.messages.length > 0 && this.connection.readyState == this.connection.OPEN) {
       this.connection.send(JSON.stringify(this.messages));
       this.messages = [];
     }
