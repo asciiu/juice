@@ -41,10 +41,11 @@ export default function sketch (p5) {
               p5ptr: p5,
             }
 
-            if (player == undefined) {
-              player = new Ship(opts); 
-            }
-            players.push(player);
+            const ship = new Ship(opts); 
+            if (clientID == jsonres.clientID) {
+              player = ship; 
+            } 
+            players.push(ship);
             continue;
           }
 
