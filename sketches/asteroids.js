@@ -15,21 +15,20 @@ export default function sketch (p5) {
   let coinSound;
   let rocketImage;
   let boosterSound;
-  let player;
-  const clientID = uuid.v1()
-  const socket = new GameSocket('ws://192.168.99.100:32000/ws');
-  const TopicPlayerRegister = "player-register"
-  const TopicPlayerUnregister = "player-unregister"
-  const TopicShipBoost = "ship-boost"
-  const TopicShipRotation = "ship-rotation"
-  const TopicShipLaser = "ship-laser"
-  const players = [];
+  let player = undefined;
+  let clientID = undefined; 
   let close = false;
+  const socket = new GameSocket('ws://192.168.99.100:32000/ws');
+  const TopicPlayerRegister = "player-register";
+  const TopicPlayerUnregister = "player-unregister";
+  const TopicShipBoost = "ship-boost";
+  const TopicShipRotation = "ship-rotation";
+  const TopicShipLaser = "ship-laser";
+  const players = [];
 
   const onSocketMessage = (evt) => {
     try {
       const jsonres = JSON.parse(evt.data);
-      console.log(jsonres);
 
       for (const json of jsonres) {
         switch (json.topic) {
@@ -45,7 +44,7 @@ export default function sketch (p5) {
             }
 
             const ship = new Ship(opts); 
-            if (clientID == jsonres.clientID) {
+            if (clientID == json.clientID) {
               player = ship; 
             } 
             players.push(ship);
@@ -53,28 +52,37 @@ export default function sketch (p5) {
           }
 
           case TopicPlayerUnregister: {
-            close = true;
-            p5.remove();
-            socket.close();
-            break;
+            for (let i = 0; i < players.length; ++i) {
+              if (players[i].clientID == json.clientID) {
+                players.splice(i, 1);
+              }
+            }
+            if (player != undefined && player.clientID == json.clientID) {
+              player = undefined;
+            }
+            continue;
           }
 
           case TopicShipBoost: {
-            const player = players.find( p => p.clientID == json.clientID)
-            player.boosting(json.boost);
+            const ship = players.find( p => p.clientID == json.clientID)
+            if (ship != undefined) 
+              ship.boosting(json.boost);
             continue;
           }
 
           case TopicShipRotation: {
-            const player = players.find( p => p.clientID == json.clientID)
-            player.setRotation(parseFloat(json.radian));
+            const ship = players.find( p => p.clientID == json.clientID)
+            if (ship != undefined) 
+              ship.setRotation(parseFloat(json.radian));
             continue;
           }
 
           case TopicShipLaser: {
-            const player = players.find( p => p.clientID == json.clientID)
-            laserSound.play();
-            lasers.push(new Laser(p5, player.pos, player.heading));
+            const ship = players.find( p => p.clientID == json.clientID)
+            if (ship != undefined) {
+              laserSound.play();
+              lasers.push(new Laser(p5, ship.pos, ship.heading));
+            }
             continue;
           }
         }
@@ -90,14 +98,7 @@ export default function sketch (p5) {
   }
 
   const onSocketConnected = (evt) => {
-    if (player == undefined) { 
-      socket.send([{
-        topic: TopicPlayerRegister, 
-        clientID: clientID, 
-        screenWidth: p5.width, 
-        screenHeight: p5.height
-      }]);
-    }
+    console.log("connected");
   }
 
   const onSocketClosed = (closeEvt) => {
@@ -117,10 +118,9 @@ export default function sketch (p5) {
   }
 
   p5.cleanUp = () => {
-    socket.send([{
-      topic: TopicPlayerUnregister, 
-      clientID: clientID 
-    }]);
+    close = true;
+    p5.remove();
+    socket.close();
   }
 
   p5.setup = () => {
@@ -212,16 +212,18 @@ export default function sketch (p5) {
       }
     }
   
-    for (const player of players) {
-      player.render();
-      player.turn();
-      player.update();
-      player.edges();
+    for (const p of players) {
+      p.render();
+      p.turn();
+      p.update();
+      p.edges();
     }
   }
   
   p5.keyReleased = (event) => {
-    if (event.key != ' ') {
+    if (player == undefined) {
+      return false;
+    } else if (event.key != ' ') {
       socket.send([
         {topic: TopicShipBoost, clientID: clientID, boost: false},
         {topic: TopicShipRotation, clientID: clientID, radian: 0.0}
@@ -230,8 +232,22 @@ export default function sketch (p5) {
   }
   
   p5.keyPressed = (event) => {
-    const player = players.find( p => p.clientID === clientID)
-    if (event.key == ' ' && !player.destroyed()) {
+    if (event.key == 'p' && player == undefined) {
+      clientID = uuid.v1();
+      socket.send([{
+        topic: TopicPlayerRegister, 
+        clientID: clientID, 
+        screenWidth: p5.width, 
+        screenHeight: p5.height
+      }]);
+    } else if (player == undefined) {
+      return false;
+    } else if (event.key == 'u' && player != undefined) {
+      socket.send([{
+        topic: TopicPlayerUnregister, 
+        clientID: clientID 
+      }]);
+    } else if (event.key == ' ' && !player.destroyed()) {
       socket.send([{topic: TopicShipLaser, clientID: clientID}]);
     } else if (event.keyCode == p5.RIGHT_ARROW) {
       socket.send([{topic: TopicShipRotation, clientID: clientID, radian: 0.1}]);
