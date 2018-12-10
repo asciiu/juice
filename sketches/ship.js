@@ -13,6 +13,7 @@ export class Ship {
     y:y, 
     radius: rad = 6,
     rotation: radian = 0,
+    heading: heading = 0
   }) {
 
     this.clientID = id;
@@ -20,7 +21,7 @@ export class Ship {
     this.pos = p5instance.createVector(x, y);
 
     this.radius = rad;
-    this.heading = radian;
+    this.heading = heading;
     this.rotation = radian;
 
     this.vel = p5instance.createVector(0, 0);

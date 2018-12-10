@@ -30,7 +30,16 @@ export class GameSocket {
   // json is expected to be an array of json
   send = (jsonarray) => {
     for (const json of jsonarray) {
-      this.messages.push(json);
+      const msg = this.messages.find(m => 
+        m.clientID == json.clientID && m.topic == json.topic);
+      
+      if (msg == undefined) {
+        // add new message
+        this.messages.push(json);
+      } else {
+        // overwrite existing
+        msg = json;
+      }
     }
   }
 }
