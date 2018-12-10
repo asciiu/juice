@@ -18,19 +18,22 @@ export default function sketch (p5) {
   let player;
   const clientID = uuid.v1()
   const socket = new GameSocket('ws://192.168.99.100:32000/ws');
-  const TopicPlayerSetup = "player-setup"
+  const TopicPlayerRegister = "player-register"
+  const TopicPlayerUnregister = "player-unregister"
   const TopicShipBoost = "ship-boost"
   const TopicShipRotation = "ship-rotation"
   const TopicShipLaser = "ship-laser"
   const players = [];
+  let close = false;
 
   const onSocketMessage = (evt) => {
     try {
       const jsonres = JSON.parse(evt.data);
+      console.log(jsonres);
 
       for (const json of jsonres) {
         switch (json.topic) {
-          case TopicPlayerSetup: {
+          case TopicPlayerRegister: {
             const opts = {
               clientID: json.clientID,
               image: rocketImage,
@@ -47,6 +50,13 @@ export default function sketch (p5) {
             } 
             players.push(ship);
             continue;
+          }
+
+          case TopicPlayerUnregister: {
+            close = true;
+            p5.remove();
+            socket.close();
+            break;
           }
 
           case TopicShipBoost: {
@@ -82,7 +92,7 @@ export default function sketch (p5) {
   const onSocketConnected = (evt) => {
     if (player == undefined) { 
       socket.send([{
-        topic: TopicPlayerSetup, 
+        topic: TopicPlayerRegister, 
         clientID: clientID, 
         screenWidth: p5.width, 
         screenHeight: p5.height
@@ -91,13 +101,15 @@ export default function sketch (p5) {
   }
 
   const onSocketClosed = (closeEvt) => {
-    socket.close();
-    console.log("reconnect socket")
-    socket.connect({
-      onMessage: onSocketMessage, 
-      onOpen: onSocketConnected, 
-      onClose: onSocketClosed
-    });
+    if (!close) {
+      socket.close();
+      console.log("reconnect socket")
+      socket.connect({
+        onMessage: onSocketMessage, 
+        onOpen: onSocketConnected, 
+        onClose: onSocketClosed
+      });
+    }
   }
   
   p5.preload = () => {
@@ -105,8 +117,10 @@ export default function sketch (p5) {
   }
 
   p5.cleanUp = () => {
-    p5.remove();
-    socket.close();
+    socket.send([{
+      topic: TopicPlayerUnregister, 
+      clientID: clientID 
+    }]);
   }
 
   p5.setup = () => {
