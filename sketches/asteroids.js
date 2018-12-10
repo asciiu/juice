@@ -33,21 +33,25 @@ export default function sketch (p5) {
       for (const json of jsonres) {
         switch (json.topic) {
           case TopicPlayerRegister: {
-            const opts = {
-              clientID: json.clientID,
-              image: rocketImage,
-              width: 15,
-              height: 20,
-              x: json.x,
-              y: json.y,
-              p5ptr: p5,
-            }
+            // only add ships that have not be added
+            const ship = players.find( p => p.clientID == json.clientID)
+            if (ship == undefined) {
+              const opts = {
+                clientID: json.clientID,
+                image: rocketImage,
+                width: 15,
+                height: 20,
+                x: json.x,
+                y: json.y,
+                p5ptr: p5,
+              }
 
-            const ship = new Ship(opts); 
-            if (clientID == json.clientID) {
-              player = ship; 
-            } 
-            players.push(ship);
+              const ship = new Ship(opts); 
+              if (clientID == json.clientID) {
+                player = ship; 
+              } 
+              players.push(ship);
+            }
             continue;
           }
 
