@@ -12,7 +12,7 @@ export class GameSocket {
     this.connection.onmessage = onMessage; 
     this.connection.onopen = onOpen;
     this.connection.onclose = onClose;
-    this.t = setInterval(this.flush, 100);
+    this.t = setInterval(this.flush, 30);
   }
 
   close = () => {

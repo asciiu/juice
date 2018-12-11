@@ -237,14 +237,13 @@ export default function sketch (p5) {
   }
   
   p5.keyReleased = (event) => {
-    if (player == undefined) {
-      return false;
-    } else if (event.key != ' ') {
+    if (player != undefined && event.key != ' ') {
       socket.send([
         {topic: TopicShipBoost, clientID: clientID, boost: false},
         {topic: TopicShipRotation, clientID: clientID, radian: 0.0}
       ]);
     }
+    return false;
   }
   
   p5.keyPressed = (event) => {
