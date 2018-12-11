@@ -65,14 +65,10 @@ export class Ship {
   update = () => {
     if (this.isBoosting) {
       this.boost();
-    } else {
-      if (this.vel.x < 0.01) this.vel.x = 0;
-      if (this.vel.y < 0.01) this.vel.y = 0;
-    }
+    } 
     this.pos.add(this.vel);
     this.vel.mult(0.99);
-
-  };
+  }
   
   // boost is true or false
   boosting = (boost) => {
@@ -87,7 +83,7 @@ export class Ship {
       for (let i = 0; i < 5; ++i) {
         this.particles.push(new Particle(this.p5, 3));
       }
-  };
+  }
   
   hits = (asteroid) => {
     let d = this.p5.dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
@@ -96,7 +92,7 @@ export class Ship {
     } else {
       return false;
     }
-  };
+  }
   
   render = () => {
     if (!this.isDestroyed) {
@@ -120,7 +116,7 @@ export class Ship {
 
       this.p5.pop();
     }
-  };
+  }
   
   edges = () => {
     if (this.pos.x > this.p5.width + this.radius) {
