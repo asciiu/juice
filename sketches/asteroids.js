@@ -122,6 +122,13 @@ export default function sketch (p5) {
       });
     }
   }
+
+  const unregisterPlayer = () => {
+    socket.send([{
+      topic: TopicPlayerUnregister, 
+      clientID: clientID 
+    }]);
+  }
   
   p5.preload = () => {
     rocketImage = p5.loadImage('static/rocket.png');
@@ -154,10 +161,10 @@ export default function sketch (p5) {
       onClose: onSocketClosed
     });
 
-    //const astroidColor = {r: 0, g: 0, b: 0, a: 0};
-    //for (var i = 0; i < 9; i++) {
-    //  asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
-    //}
+    const astroidColor = {r: 0, g: 0, b: 0, a: 0};
+    for (var i = 0; i < 9; i++) {
+      asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
+    }
   }
 
   p5.draw = () => {
@@ -168,9 +175,10 @@ export default function sketch (p5) {
     for (const asteroid of asteroids) {
 
       // ship collision 
-      if ( ship != null && ship.hits(asteroid) && !ship.destroyed() ) {
+      if ( player != undefined && player.hits(asteroid) && !player.destroyed() ) {
+        unregisterPlayer(); 
         crashSound.play();
-        let shipFrags = ship.destroy();
+        let shipFrags = player.destroy();
         asteroids = asteroids.concat(shipFrags);
       }
 
@@ -258,10 +266,7 @@ export default function sketch (p5) {
     } else if (player == undefined) {
       return false;
     } else if (event.key == 'u' && player != undefined) {
-      socket.send([{
-        topic: TopicPlayerUnregister, 
-        clientID: clientID 
-      }]);
+      unregisterPlayer(); 
     } else if (event.key == ' ' && !player.destroyed()) {
       socket.send([{topic: TopicShipLaser, clientID: clientID}]);
     } else if (event.keyCode == p5.RIGHT_ARROW) {
