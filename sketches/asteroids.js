@@ -19,6 +19,7 @@ export default function sketch (p5) {
   let clientID = undefined; 
   let close = false;
   const socket = new GameSocket('ws://192.168.99.100:32000/ws');
+  const TopicAsteroid = "new-asteroid";
   const TopicPlayerRegister = "player-register";
   const TopicPlayerUnregister = "player-unregister";
   const TopicShipBoost = "ship-boost";
@@ -35,6 +36,14 @@ export default function sketch (p5) {
 
       for (const json of jsonres) {
         switch (json.topic) {
+          case TopicAsteroid: {
+            if (asteroids.length < 9) {
+              const astroidColor = {r: 0, g: 0, b: 0, a: 0};
+              asteroids.push(new Asteroid(p5, 0, 0, astroidColor, json.active));
+            } 
+            continue;
+          }
+
           case TopicPlayerRegister: {
             // only add ships that have not be added
             const ship = players.find( p => p.clientID == json.clientID)
@@ -160,11 +169,6 @@ export default function sketch (p5) {
       onOpen: onSocketConnected, 
       onClose: onSocketClosed
     });
-
-    const astroidColor = {r: 0, g: 0, b: 0, a: 0};
-    for (var i = 0; i < 9; i++) {
-      asteroids.push(new Asteroid(p5, 0, 0, astroidColor));
-    }
   }
 
   p5.draw = () => {
