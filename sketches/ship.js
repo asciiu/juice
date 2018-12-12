@@ -44,17 +44,13 @@ export class Ship {
   
   destroy = () => {
     this.isDestroyed = true;
-    let color = {
-      r: 200,
-      g: 0,
-      b: 0,
-      a: 150 
+    this.isBoosting = false;
+    for (let i = 0; i < 10; ++i) {
+      const vx = this.p5.random(-1.5, 1.5);
+      const vy = this.p5.random(-1.5, 1.5);
+      this.particles.push(new Particle(this.p5, 17, vx, vy));
     }
     let newA = [];
-    newA[0] = new Asteroid(this.p5, this.pos, this.radius, color);
-    newA[1] = new Asteroid(this.p5, this.pos, this.radius, color);
-    newA[2] = new Asteroid(this.p5, this.pos, this.radius, color);
-    newA[3] = new Asteroid(this.p5, this.pos, this.radius, color);
     return newA;
   }
 
@@ -63,11 +59,13 @@ export class Ship {
   }
 
   update = () => {
-    if (this.isBoosting) {
+    if (this.isBoosting && !this.isDestroyed) {
       this.boost();
     } 
-    this.pos.add(this.vel);
-    this.vel.mult(0.99);
+    if (!this.isDestroyed) {
+      this.pos.add(this.vel);
+      this.vel.mult(0.99);
+    }
   }
   
   // boost is true or false
@@ -81,7 +79,9 @@ export class Ship {
       this.vel.add(force);
 
       for (let i = 0; i < 5; ++i) {
-        this.particles.push(new Particle(this.p5, 3));
+        const vx = this.p5.random(-0.2, 0.2);
+        const vy = 1;
+        this.particles.push(new Particle(this.p5, 3, vx, vy));
       }
   }
   
@@ -95,27 +95,27 @@ export class Ship {
   }
   
   render = () => {
-    if (!this.isDestroyed) {
-      this.p5.push();
-      this.p5.translate(this.pos.x, this.pos.y);
-      this.p5.rotate(this.heading + this.p5.PI / 2);
+    this.p5.push();
+    this.p5.translate(this.pos.x, this.pos.y);
+    this.p5.rotate(this.heading + this.p5.PI / 2);
 
-      for (let i = this.particles.length-1; i > 0; --i) {
-        this.particles[i].update();
-        this.particles[i].show();
-        if (this.particles[i].finished()) {
-          this.particles.splice(i, 1);
-        }
+    for (let i = this.particles.length-1; i > 0; --i) {
+      this.particles[i].update();
+      this.particles[i].show();
+      if (this.particles[i].finished()) {
+        this.particles.splice(i, 1);
       }
+    }
 
+    if (!this.isDestroyed) {
       this.p5.image(this.rocket.image, 
         -this.rocket.width/2, 
         -this.rocket.height/2, 
         this.rocket.width, 
         this.rocket.height);
-
-      this.p5.pop();
     }
+
+    this.p5.pop();
   }
   
   edges = () => {

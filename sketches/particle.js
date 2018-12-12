@@ -1,12 +1,12 @@
 import p5 from 'p5'
 
 export class Particle {
-    constructor(p5inst, radius) {
+    constructor(p5inst, radius, vx, vy) {
         this.p5 = p5inst;
         this.x = 0;
         this.y = 0;
-        this.vx = p5inst.random(-0.2, 0.2);
-        this.vy = p5inst.random(1, 1);
+        this.vx = vx;
+        this.vy = vy;
         this.alpha = 155;
         this.radius = radius;
     }

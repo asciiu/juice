@@ -7,8 +7,9 @@ import { SSL_OP_NO_TICKET } from 'constants';
 import uuid from 'uuid'
 
 export default function sketch (p5) {
-  let lasers = [];
+  const lasers = [];
   let asteroids = [];
+  const players = [];
   let crashSound;
   let crumbleSound;
   let laserSound;
@@ -28,7 +29,6 @@ export default function sketch (p5) {
   const TopicShipLaser = "ship-laser";
   const TopicShipRotation = "ship-rotation";
   const TopicShipVelocity = "ship-velocity";
-  const players = [];
 
   const onSocketMessage = (evt) => {
     try {
@@ -71,11 +71,11 @@ export default function sketch (p5) {
           }
 
           case TopicPlayerUnregister: {
-            for (let i = 0; i < players.length; ++i) {
-              if (players[i].clientID == json.clientID) {
-                players.splice(i, 1);
-              }
-            }
+            // for (let i = 0; i < players.length; ++i) {
+            //   if (players[i].clientID == json.clientID) {
+            //     players.splice(i, 1);
+            //   }
+            // }
             if (player != undefined && player.clientID == json.clientID) {
               player = undefined;
             }
