@@ -3,7 +3,13 @@ import p5 from 'p5'
 export class Asteroid {
 
   // color os expected to be {r, g, b, a}
-  constructor(p5instance, pos, r, color, active = false) {
+  constructor({
+    p6: p5instance, 
+    coordinates: pos, 
+    radius: r,
+    color: color = {r: 0, g: 0, b: 0, a: 0},
+    active = false
+  }) {
     this.p5 = p5instance;
     this.color = color;
     this.active = active;
@@ -74,9 +80,15 @@ export class Asteroid {
   // returns an array of new Asteriods
   breakup = () => {
     var newA = [];
-    newA[0] = new Asteroid(this.p5, this.pos, this.r, this.color, this.active);
-    newA[1] = new Asteroid(this.p5, this.pos, this.r, this.color, this.active);
-    newA[2] = new Asteroid(this.p5, this.pos, this.r, this.color, this.active);
+    for (let i = 0; i < 3; ++i) {
+      newA.push(new Asteroid({
+        p6: this.p5, 
+        coordinates: this.pos, 
+        radius: this.r, 
+        color: this.color, 
+        active: this.active
+      }));
+    }
     return newA;
   }
   

@@ -38,8 +38,10 @@ export default function sketch (p5) {
         switch (json.topic) {
           case TopicAsteroid: {
             if (asteroids.length < 9) {
-              const astroidColor = {r: 0, g: 0, b: 0, a: 0};
-              asteroids.push(new Asteroid(p5, 0, 0, astroidColor, json.active));
+              asteroids.push(new Asteroid({
+                p6: p5, 
+                active: json.active
+              }));
             } 
             continue;
           }
@@ -71,11 +73,11 @@ export default function sketch (p5) {
           }
 
           case TopicPlayerUnregister: {
-            // for (let i = 0; i < players.length; ++i) {
-            //   if (players[i].clientID == json.clientID) {
-            //     players.splice(i, 1);
-            //   }
-            // }
+            for (let i = 0; i < players.length; ++i) {
+              if (players[i].clientID == json.clientID) {
+                players.splice(i, 1);
+              }
+            }
             if (player != undefined && player.clientID == json.clientID) {
               player = undefined;
             }
