@@ -1,11 +1,10 @@
 import {Ship} from './ship.js'
 import {Laser} from './laser.js'
 import {Asteroid} from './asteroid.js'
-import {GameSocket} from '../components/socket'
+import {GameSocket} from '../../components/socket'
 import 'p5/lib/addons/p5.sound'
 import { SSL_OP_NO_TICKET } from 'constants';
 import uuid from 'uuid'
-import { Coin } from './coin.js';
 
 export default function sketch (p5) {
   const lasers = [];

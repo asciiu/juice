@@ -1,5 +1,3 @@
-import p5 from 'p5'
-
 export class Particle {
     constructor({
         p6: p5inst, 
