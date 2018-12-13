@@ -236,8 +236,14 @@ export default function sketch (p5) {
       }
     }
   
-    for (const c of coins) {
-      c.render();
+    for (let c = 0; c < coins.length; ++c) {
+      const coin = coins[c];
+      if ( player != undefined && player.hits(coin) && !player.destroyed() ) {
+        coinSound.play();
+        coins.splice(c, 1);
+      } else {
+        coin.render();
+      }
     }
 
     for (const p of players) {

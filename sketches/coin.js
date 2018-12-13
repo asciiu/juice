@@ -11,13 +11,7 @@ export class Coin {
     this.color = color;
     this.pos = pos;
     this.r = r * 0.5;
-
-    if (pos) {
-      this.pos = pos.copy();
-    } else {
-      this.pos = p5instance.createVector(p5instance.random(this.p5.width), p5instance.random(this.p5.height))
-    }
-
+    this.pos = pos.copy();
     this.vel = p5.Vector.random2D();
   }
   
