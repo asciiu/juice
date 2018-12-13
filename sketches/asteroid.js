@@ -17,7 +17,7 @@ export class Asteroid {
       r: 255,
       g: 202,
       b: 0,
-      a: 70 
+      a: 40 
     };
 
     if (pos) {

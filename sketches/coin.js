@@ -4,13 +4,13 @@ export class Coin {
   constructor({
     p6: p5instance, 
     coordinates: pos, 
-    radius: r = 5,
+    radius: r = 3,
     color: color = {r: 255, g: 202, b: 0, a: 200},
   }) {
     this.p5 = p5instance;
     this.color = color;
     this.pos = pos;
-    this.r = r * 0.5;
+    this.r = r;
     this.pos = pos.copy();
     this.vel = p5.Vector.random2D();
   }
