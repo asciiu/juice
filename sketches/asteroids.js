@@ -5,11 +5,13 @@ import {GameSocket} from '../components/socket'
 import 'p5/lib/addons/p5.sound'
 import { SSL_OP_NO_TICKET } from 'constants';
 import uuid from 'uuid'
+import { Coin } from './coin.js';
 
 export default function sketch (p5) {
   const lasers = [];
   let asteroids = [];
   const players = [];
+  let coins = [];
   let crashSound;
   let crumbleSound;
   let laserSound;
@@ -179,13 +181,11 @@ export default function sketch (p5) {
     // renders all asteriods
     let flagActive = false;
     for (const asteroid of asteroids) {
-
       // ship collision 
       if ( player != undefined && player.hits(asteroid) && !player.destroyed() ) {
         unregisterPlayer(); 
         crashSound.play();
-        let shipFrags = player.destroy();
-        asteroids = asteroids.concat(shipFrags);
+        coins = coins.concat(player.destroy());
       }
 
       // active asteriod
@@ -236,6 +236,10 @@ export default function sketch (p5) {
       }
     }
   
+    for (const c of coins) {
+      c.render();
+    }
+
     for (const p of players) {
       p.render();
       p.turn();

@@ -1,5 +1,5 @@
 import p5 from 'p5'
-import {Asteroid} from './asteroid.js'
+import {Coin} from './coin.js'
 import {Particle} from './particle.js'
 
 export class Ship {
@@ -51,17 +51,14 @@ export class Ship {
       b: 0,
       a: 150 
     }
-    let newA = [];
+    let coins = [];
     for (let i = 0; i < 10; ++i) {
-      newA.push(new Asteroid({
-        p6: this.p5, 
-        coordinates: this.pos, 
-        radius: this.radius, 
-        color: color, 
-        active: true
+      coins.push(new Coin({
+        p6: this.p5,
+        coordinates: this.pos
       }));
     }
-    return newA;
+    return coins;
   }
 
   destroyed = () => {
