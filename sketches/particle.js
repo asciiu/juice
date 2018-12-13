@@ -1,14 +1,21 @@
 import p5 from 'p5'
 
 export class Particle {
-    constructor(p5inst, radius, vx, vy) {
+    constructor({
+        p6: p5inst, 
+        radius: radius, 
+        velocityX: vx, 
+        velocityY: vy,
+        color: c = {r: 255, g: 30, b: 30}
+    }) {
         this.p5 = p5inst;
         this.x = 0;
         this.y = 0;
         this.vx = vx;
         this.vy = vy;
-        this.alpha = 155;
+        this.color = c;
         this.radius = radius;
+        this.alpha = 155;
     }
 
     update = () => {
@@ -23,8 +30,8 @@ export class Particle {
 
     show = () => {
         this.p5.noStroke();
-        let alpha = this.p5.random(1, this.alpha)
-        this.p5.fill(255, 30, 30, alpha);
+        const alpha = this.p5.random(1, this.alpha);
+        this.p5.fill(this.color.r, this.color.g, this.color.b, alpha);
         this.p5.ellipse(this.x, this.y, this.radius);
     }
 }

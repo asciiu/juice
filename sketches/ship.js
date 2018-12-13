@@ -84,9 +84,12 @@ export class Ship {
       this.vel.add(force);
 
       for (let i = 0; i < 5; ++i) {
-        const vx = this.p5.random(-0.2, 0.2);
-        const vy = 1;
-        this.particles.push(new Particle(this.p5, 3, vx, vy));
+        this.particles.push(new Particle({
+          p6: this.p5, 
+          radius: 3, 
+          velocityX: this.p5.random(-0.2, 0.2), 
+          velocityY: 1 
+        }));
       }
   }
   
