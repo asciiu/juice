@@ -86,9 +86,11 @@ export class Asteroid {
         coordinates: this.pos, 
         radius: this.r, 
         color: this.color, 
-        active: this.active
+        active: false 
       }));
     }
+    const index = Math.floor(Math.random() * newA.length);
+    newA[index].activate();
     return newA;
   }
   
