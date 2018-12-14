@@ -76,6 +76,18 @@ export class Asteroid {
     this.p5.endShape(this.p5.CLOSE);
     this.p5.pop();
   }
+
+  shrink = () => {
+    if (this.r > 9) {
+      this.r = this.r * 0.5;
+      this.total -= 3;
+      if (this.total < 3) 
+        this.total = 3;
+
+      //this.total = this.p5.floor(this.p5.random(5, 15));
+      //this.total = this.p5.floor(this.p5.random(20, 30));
+    }
+  }
   
   // returns an array of new Asteriods
   breakup = () => {

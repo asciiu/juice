@@ -38,7 +38,7 @@ export default function sketch (p5) {
       for (const json of jsonres) {
         switch (json.topic) {
           case TopicAsteroid: {
-            if (asteroids.length < 9) {
+            if (asteroids.length < 3) {
               asteroids.push(new Asteroid({
                 p6: p5, 
                 active: json.active
@@ -221,13 +221,18 @@ export default function sketch (p5) {
             if (asteroid.activated()) {
               if (asteroid.r > 9) {
                 crumbleSound.play();
-                const smallerAsteroids = asteroid.breakup();
-                asteroids = asteroids.concat(smallerAsteroids);
-              } else {
+                //const smallerAsteroids = asteroid.breakup();
+                //asteroids = asteroids.concat(smallerAsteroids);
                 coinSound.play();
-              }
+                asteroid.shrink();
+                if (asteroid.r < 9) {
+                  asteroids.splice(j, 1);
+                }
+              } //else {
+                //coinSound.play();
+              //}
 
-              asteroids.splice(j, 1);
+              //asteroids.splice(j, 1);
             }
             break;
           }
