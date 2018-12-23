@@ -1,6 +1,7 @@
 import {Ship} from './ship.js'
 import {Laser} from './laser.js'
 import {Asteroid} from './asteroid.js'
+import {Coin} from './coin.js'
 import {GameSocket} from '../../components/socket'
 import 'p5/lib/addons/p5.sound'
 import { SSL_OP_NO_TICKET } from 'constants';
@@ -38,7 +39,7 @@ export default function sketch (p5) {
       for (const json of jsonres) {
         switch (json.topic) {
           case TopicAsteroid: {
-            if (asteroids.length < 3) {
+            if (asteroids.length < 9) {
               asteroids.push(new Asteroid({
                 p6: p5, 
                 active: json.active
@@ -221,18 +222,16 @@ export default function sketch (p5) {
             if (asteroid.activated()) {
               if (asteroid.r > 9) {
                 crumbleSound.play();
-                //const smallerAsteroids = asteroid.breakup();
-                //asteroids = asteroids.concat(smallerAsteroids);
-                coinSound.play();
-                asteroid.shrink();
-                if (asteroid.r < 9) {
-                  asteroids.splice(j, 1);
-                }
-              } //else {
-                //coinSound.play();
-              //}
-
-              //asteroids.splice(j, 1);
+                const smallerAsteroids = asteroid.breakup();
+                asteroids = asteroids.concat(smallerAsteroids);
+              } else {
+                coins.push(new Coin({
+                  p6: p5,
+                  coordinates: asteroid.pos
+                }));
+              }
+              crumbleSound.play();
+              asteroids.splice(j, 1);
             }
             break;
           }

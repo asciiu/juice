@@ -79,10 +79,11 @@ export class Asteroid {
 
   shrink = () => {
     if (this.r > 9) {
-      this.r = this.r * 0.5;
-      this.total -= 3;
+      this.r = this.r * 0.3;
+      this.total -= 1;
+
       if (this.total < 3) 
-        this.total = 3;
+        this.total = 4;
 
       //this.total = this.p5.floor(this.p5.random(5, 15));
       //this.total = this.p5.floor(this.p5.random(20, 30));
@@ -98,11 +99,11 @@ export class Asteroid {
         coordinates: this.pos, 
         radius: this.r, 
         color: this.color, 
-        active: false 
+        active: true 
       }));
     }
-    const index = Math.floor(Math.random() * newA.length);
-    newA[index].activate();
+    //const index = Math.floor(Math.random() * newA.length);
+    //newA[index].activate();
     return newA;
   }
   
