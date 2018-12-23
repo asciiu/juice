@@ -227,7 +227,8 @@ export default function sketch (p5) {
               } else {
                 coins.push(new Coin({
                   p6: p5,
-                  coordinates: asteroid.pos
+                  coordinates: asteroid.pos,
+                  velocity: asteroid.vel
                 }));
               }
               crumbleSound.play();

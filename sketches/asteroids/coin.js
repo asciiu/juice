@@ -6,13 +6,14 @@ export class Coin {
     coordinates: pos, 
     radius: r = 3,
     color: color = {r: 255, g: 202, b: 0, a: 200},
+    velocity: vel = p5.Vector.random2D(),
   }) {
     this.p5 = p5instance;
     this.color = color;
     this.pos = pos;
     this.r = r;
     this.pos = pos.copy();
-    this.vel = p5.Vector.random2D();
+    this.vel = vel;
   }
   
   update = () => {
