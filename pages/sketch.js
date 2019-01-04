@@ -13,7 +13,6 @@ class Sketch extends React.Component {
   render() {
     return (
       <Layout>
-        <p>ANEX coming soon!</p>
         <P5Wrapper sketch={this.state.sketch} />
       </Layout>
     );
