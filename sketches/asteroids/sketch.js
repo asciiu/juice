@@ -168,7 +168,7 @@ export default function sketch (p5) {
 
     //const width = Math.floor(2*p5.windowWidth/3);
     //const height = Math.floor(3*p5.windowHeight/4); 
-    const cnv = p5.createCanvas(1024, 700);
+    const cnv = p5.createCanvas(p5.windowWidth, 700);
     const x = (p5.windowWidth - p5.width) / 2;
     const y = (p5.windowHeight - p5.height) / 2;
     cnv.position(x, y);
@@ -180,6 +180,10 @@ export default function sketch (p5) {
     });
   }
 
+  p5.windowResized = () => {
+    p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+  }
+
   p5.draw = () => {
     p5.background(0);
   
@@ -187,7 +191,7 @@ export default function sketch (p5) {
     let flagActive = false;
     for (const asteroid of asteroids) {
       // ship collision 
-      if ( player != undefined && player.hits(asteroid) && !player.destroyed() ) {
+      if ( player != undefined && player.hits(asteroid) && !player.destroyed() && player.active ) {
         unregisterPlayer(); 
         crashSound.play();
         coins = coins.concat(player.destroy());

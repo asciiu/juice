@@ -15,7 +15,8 @@ export class Ship {
     velocityY: vy = 0,
     radius: rad = 6,
     rotation: radian = 0,
-    heading: heading = 0
+    heading: heading = 0,
+    active = false
   }) {
     this.clientID = id;
     this.p5 = p5instance;
@@ -24,6 +25,7 @@ export class Ship {
     this.radius = rad;
     this.heading = heading;
     this.rotation = radian;
+    this.active = active;
 
     this.vel = p5instance.createVector(vx, vy);
     this.isBoosting = false;
