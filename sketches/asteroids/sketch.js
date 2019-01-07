@@ -168,7 +168,7 @@ export default function sketch (p5) {
 
     //const width = Math.floor(2*p5.windowWidth/3);
     //const height = Math.floor(3*p5.windowHeight/4); 
-    const cnv = p5.createCanvas(p5.windowWidth, 700);
+    const cnv = p5.createCanvas(p5.windowWidth, p5.windowHeight);
     const x = (p5.windowWidth - p5.width) / 2;
     const y = (p5.windowHeight - p5.height) / 2;
     cnv.position(x, y);
