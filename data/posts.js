@@ -1,8 +1,11 @@
 export default [
-    {title: 'Money'},
-    {title: 'Grow'},
-    {title: 'Money'},
-    {title: 'Flow'},
-    {title: 'Watch me Earn'},
-    {title: 'Candle Burn'}
+  {title: 'BTC'},
+  {title: 'ETH'},
+  {title: 'XRP'},
+  {title: 'BCH'},
+  {title: 'EOS'},
+  {title: 'XLM'},
+  {title: 'LTC'},
+  {title: "ADA"},
+  {title: "IOTA"}
 ]

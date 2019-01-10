@@ -7,7 +7,7 @@ export default () => (
   <nav>
     <Link href="/" passHref><Btn>Index</Btn></Link>
     <Link href="/about" passHref><Btn>About</Btn></Link>
-    <Link href="/second" passHref><Btn>Second</Btn></Link>
+    <Link href="/market" passHref><Btn>Markets</Btn></Link>
     <Link href="/sketch" passHref><Btn>Sketch</Btn></Link>
   </nav>
 )
