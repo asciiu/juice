@@ -1,5 +1,5 @@
 import Layout from '../components/layout'
-import posts from '../data/posts'
+import currencies from '../data/currencies'
 import Link from 'next/link'
 import { HorizontalGridLines, LineSeries, XAxis, XYPlot, YAxis } from 'react-vis'
 import { Row, Col } from 'antd'
@@ -12,10 +12,10 @@ export default () => (
     <Row>
       <Col span={12}>
         <ul>
-          {posts.map((post, index) => (
+          {currencies.map((currency, index) => (
             <li key={index}>
-              <Link as={`/market/${index}`} href={{pathname: '/market', query: {id: index}}}>
-                <a>{post.title}</a>
+              <Link as={`/currency/${index}`} href={{pathname: '/base', query: {id: index}}}>
+                <a>{currency.title}</a>
               </Link>
             </li>
           ))}

@@ -1,24 +1,18 @@
 import Document, { Head, Main, NextScript } from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
 
-// https://github.com/zeit/next.js/tree/master/examples/with-styled-components
-// https://nextjs.org/docs#custom-document
 export default class MyDocument extends Document {
-  static getInitialProps ({ renderPage }) {
-    const sheet = new ServerStyleSheet()
-    const page = renderPage(App => props => sheet.collectStyles(<App {...props} />))
-    const styleTags = sheet.getStyleElement()
-    return { ...page, styleTags }
+  static async getInitialProps(ctx) {
+    const initialProps = await Document.getInitialProps(ctx)
+    return { ...initialProps }
   }
 
-  render () {
+  render() {
     return (
       <html>
         <Head>
-          <title>My page</title>
-          {this.props.styleTags}
+          <style>{`body { margin: 0 } /* custom! */`}</style>
         </Head>
-        <body>
+        <body className="custom_class">
           <Main />
           <NextScript />
         </body>

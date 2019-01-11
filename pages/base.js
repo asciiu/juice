@@ -1,11 +1,11 @@
 import Layout from '../components/layout'
 import Error from 'next/error'
-import posts from '../data/posts'
+import currencies from '../data/currencies'
 
 export default ({url: {query: {id}}}) => (
-  (posts[id]) ? (
+  (currencies[id]) ? (
     <Layout>
-        <h1>{posts[id].title}</h1>
+        <h1>{currencies[id].title}</h1>
     </Layout>
   ) : (
     <Error statusCode={404}/>
