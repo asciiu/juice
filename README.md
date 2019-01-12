@@ -5,9 +5,9 @@
 (⌐■_■)
 ```
 
-# libs
-* next.js
-* p5.js
+### What's in the box? 
+* https://nextjs.org/ 
+* https://p5js.org/ 
 
 ### Prerequisites
 Local Dev 
