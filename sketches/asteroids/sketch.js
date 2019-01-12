@@ -191,7 +191,7 @@ export default function sketch (p5) {
     let flagActive = false;
     for (const asteroid of asteroids) {
       // ship collision 
-      if ( player != undefined && player.hits(asteroid) && !player.destroyed() && player.active ) {
+      if ( player != undefined && player.hits(asteroid) && !player.destroyed() ) {
         unregisterPlayer(); 
         crashSound.play();
         coins = coins.concat(player.destroy());

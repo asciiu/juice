@@ -1,9 +1,13 @@
-# anex-web
+# juice
 ```
 (•_•)
 ( •_•)>⌐■-■
 (⌐■_■)
 ```
+
+# libs
+* next.js
+* p5.js
 
 ### Prerequisites
 Local Dev 

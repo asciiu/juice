@@ -8,7 +8,7 @@ import 'antd/dist/antd.css'
 
 export default () => (
   <Layout>
-    <h1>ANEX</h1>
+    <h1>juice</h1>
     <Row>
       <Col span={12}>
         <ul>
