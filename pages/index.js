@@ -7,7 +7,7 @@ import 'antd/dist/antd.css'
 
 export default () => (
   <Layout>
-    <Row>
+    <Row type="flex" justify="center">
       <Col span={12}>
         <List
           itemLayout="horizontal"
@@ -22,19 +22,6 @@ export default () => (
             </List.Item>
           )}
         />
-      </Col>
-      <Col span={12}>
-        <XYPlot width={300} height={300}>
-          <HorizontalGridLines/>
-          <LineSeries
-              data={[
-                  {x: 1, y: 10},
-                  {x: 2, y: 5},
-                  {x: 3, y: 15}
-              ]}/>
-          <XAxis/>
-          <YAxis/>
-        </XYPlot>
       </Col>
     </Row>
   </Layout>
