@@ -8,7 +8,6 @@ import 'antd/dist/antd.css'
 
 export default () => (
   <Layout>
-    <h1>juice</h1>
     <Row>
       <Col span={12}>
         <List
@@ -18,8 +17,8 @@ export default () => (
             <List.Item>
               <List.Item.Meta
                 avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                title={<a href={`/base/1`}>{item.title}</a>}
-                description={item.description}
+                title={<a href={`/ticket?id=${item.id}`}>{item.title}</a>}
+                description={<a href={`/ticket?id=${item.id}`}>{item.description}</a>}
               />
             </List.Item>
           )}
