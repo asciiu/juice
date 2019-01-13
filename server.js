@@ -9,7 +9,7 @@ app.prepare()
 .then(() => {
   const server = express()
 
-  server.get('/currency/:id', (req, res) => {
+  server.get('/ticket/:id', (req, res) => {
     const actualPage = '/base'
     const queryParams = { id: req.params.id }
     app.render(req, res, actualPage, queryParams)
