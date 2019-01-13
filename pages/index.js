@@ -1,6 +1,5 @@
 import Layout from '../components/layout'
-import currencies from '../data/currencies'
-import Link from 'next/link'
+import {tickets} from '../data/dummy'
 import { HorizontalGridLines, LineSeries, XAxis, XYPlot, YAxis } from 'react-vis'
 import { Avatar, Row, Col, List } from 'antd'
 import 'react-vis/dist/style.css'
@@ -12,13 +11,13 @@ export default () => (
       <Col span={12}>
         <List
           itemLayout="horizontal"
-          dataSource={currencies}
-          renderItem={item => (
+          dataSource={tickets}
+          renderItem={ticket => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                title={<a href={`/ticket?id=${item.id}`}>{item.title}</a>}
-                description={<a href={`/ticket?id=${item.id}`}>{item.description}</a>}
+                avatar={<a href={`/bookie?id=${ticket.uid}`}><Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /></a>}
+                title={<a href={`/sport?id=${ticket.sid}`}>{ticket.sport}</a>}
+                description={<a href={`/ticket?id=${ticket.id}`}>{ticket.description}</a>}
               />
             </List.Item>
           )}

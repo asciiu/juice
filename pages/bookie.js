@@ -1,11 +1,12 @@
 import Layout from '../components/layout'
 import Error from 'next/error'
-import {tickets} from '../data/dummy'
+import {bookies} from '../data/dummy'
 
 export default ({url: {query: {id}}}) => (
-  (tickets[id]) ? (
+  (bookies[id]) ? (
     <Layout>
-        <h1>{tickets[id].description}</h1>
+        {`bookie: `}
+        <h1>{bookies[id].username}</h1>
     </Layout>
   ) : (
     <Error statusCode={404}/>
