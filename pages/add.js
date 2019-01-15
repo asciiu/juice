@@ -1,8 +1,8 @@
 import Layout from '../components/layout'
-import WrappedRegistrationForm from '../components/forms/address'
+import SimpleBetForm from '../components/forms/simpleBetForm'
 
 export default () => (
   <Layout>
-    <WrappedRegistrationForm />
+    <SimpleBetForm />
   </Layout>
 )
