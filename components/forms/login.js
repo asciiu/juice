@@ -1,7 +1,8 @@
 import {
     Form, Icon, Input, Button, Checkbox,
   } from 'antd';
-  
+import Link from '../link'
+
   class NormalLoginForm extends React.Component {
     handleSubmit = (e) => {
       e.preventDefault();
@@ -37,8 +38,8 @@ import {
             })(
               <div><Checkbox>Remember me</Checkbox></div>
             )}
-            <a className="login-form-forgot" href="">Forgot password</a>
-            <span> or </span><a href="">register now!</a>
+            <a className="login-form-forgot" href="/forgot">Forgot password</a>
+            <span> or </span><Link href="/signup" passHref>register now!</Link>
           </Form.Item>
         </Form>
       );
