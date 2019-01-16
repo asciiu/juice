@@ -1,10 +1,14 @@
 import { Button, Layout, Menu, Modal } from 'antd';
 import NavLink from './navLink'
+import Login from './forms/login'
 
 const { Header, Content, Footer } = Layout;
 
 export default class JuiceLayout extends React.Component{
-  state = { visible: false }
+  state = { 
+    loading: false,
+    visible: false 
+  }
 
   showModal = () => {
     this.setState({
@@ -13,10 +17,11 @@ export default class JuiceLayout extends React.Component{
   }
 
   handleOk = (e) => {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
     console.log(e);
-    this.setState({
-      visible: false,
-    });
   }
 
   handleCancel = (e) => {
@@ -26,22 +31,23 @@ export default class JuiceLayout extends React.Component{
     });
   }
 
-  handleNav = (item, key, keyPath) => {
-
-  }
-
   render = () => {
+    const { loading } = this.state;
+
     return (
       <nav>
         <Modal
-            title="Basic Modal"
+            title="Login"
             visible={this.state.visible}
-            onOk={this.handleOk}
             onCancel={this.handleCancel}
+            footer={[
+              <Button key="cancel" onClick={this.handleCancel}>Cancel</Button>,
+              <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>
+                Login 
+              </Button>,
+            ]}
           >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            <Login/>
         </Modal>
         <Layout className="layout">
           <Header>
