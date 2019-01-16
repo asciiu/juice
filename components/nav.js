@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import Btn from './btn'
+import Btn from './navLink'
 import './nav.css'
 
 export default () => (
