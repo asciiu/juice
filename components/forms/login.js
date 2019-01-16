@@ -1,9 +1,7 @@
-import {
-    Form, Icon, Input, Button, Checkbox,
-  } from 'antd';
+import { Form, Icon, Input, Checkbox } from 'antd';
 import Link from '../link'
 
-  class NormalLoginForm extends React.Component {
+class LoginForm extends React.Component {
     handleSubmit = (e) => {
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
@@ -47,6 +45,6 @@ import Link from '../link'
   }
   
 
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
-export default WrappedNormalLoginForm 
+const loginForm = Form.create({ name: 'normal_login' })(LoginForm);
+export default loginForm 
   
