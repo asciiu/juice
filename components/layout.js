@@ -1,6 +1,6 @@
 import { Button, Layout, Menu, Modal } from 'antd';
 import NavLink from './navLink'
-import Login from './forms/login'
+import LoginModalle from './forms/login'
 import 'antd/dist/antd.css'
 
 const { Header, Content, Footer } = Layout;
@@ -32,7 +32,7 @@ export default class JuiceLayout extends React.Component{
   }
 
   render = () => {
-    const { loading } = this.state;
+    const { loading, visible } = this.state;
     const rightMenuStyle = {
       float: 'right',
       background: '#001529'
@@ -47,19 +47,12 @@ export default class JuiceLayout extends React.Component{
 
     return (
       <span>
-        <Modal
-            title="Login"
-            visible={this.state.visible}
-            onCancel={this.handleCancel}
-            footer={[
-              <Button key="cancel" onClick={this.handleCancel}>Cancel</Button>,
-              <Button key="login" type="primary" loading={loading} onClick={this.handleLogin}>
-                Login 
-              </Button>,
-            ]}
-          >
-            <Login/>
-        </Modal>
+        <Login 
+          visible={ visible } 
+          loading={ loading }
+          onCancel={this.handleCancel}
+          onLogin={this.handleLogin}
+        />
         <Layout className="layout">
           <Header>
             <Menu
