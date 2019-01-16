@@ -2,12 +2,20 @@ import { Button, Form, Icon, Input, Checkbox, Modal } from 'antd';
 import Link from '../link'
 
 class LoginForm extends React.Component {
+  componentDidMount() {
+    this.props.onRef(this)
+  }
+  componentWillUnmount() {
+    this.props.onRef(undefined)
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-      }
+        this.props.onLogin(e)
+      } 
     });
   }
 
@@ -24,7 +32,7 @@ class LoginForm extends React.Component {
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
+            rules: [{ required: true, message: 'Please input your password!' }],
           })(
             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
           )}
@@ -46,9 +54,14 @@ class LoginForm extends React.Component {
   
 const WrappedLoginForm = Form.create({ name: 'normal_login' })(LoginForm);
 
-export default class ModalLogin extends React.Component {
+export default class LoginModalle extends React.Component {
+
+  handleLogin = (e) => {
+    this.loginForm.handleSubmit(e)
+  }
+  
   render() {
-    const { loading, onCancel, onLogin, visible } = this.props;
+    const { loading, onCancel, visible } = this.props;
     return (
         <Modal
           title="Login"
@@ -56,12 +69,15 @@ export default class ModalLogin extends React.Component {
           onCancel={onCancel}
           footer={[
             <Button key="cancel" onClick={onCancel}>Cancel</Button>,
-            <Button key="login" type="primary" loading={loading} onClick={onLogin}>
+            <Button key="login" type="primary" loading={loading} onClick={this.handleLogin}>
               Login 
-            </Button>,
+            </Button>
           ]}
         >
-          <WrappedLoginForm/>
+          <WrappedLoginForm 
+            onRef={ref => (this.loginForm = ref)} 
+            onLogin={this.props.onLogin} 
+          />
         </Modal>
     )
   }

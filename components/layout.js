@@ -47,7 +47,7 @@ export default class JuiceLayout extends React.Component{
 
     return (
       <span>
-        <Login 
+        <LoginModalle 
           visible={ visible } 
           loading={ loading }
           onCancel={this.handleCancel}
