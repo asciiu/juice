@@ -1,16 +1,14 @@
-import Nav from './nav'
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu } from 'antd';
+import NavLink from './navLink'
 
 const { Header, Content, Footer } = Layout;
 
-const layoutStyle = {
-  margin: 20,
-  padding: 20,
-  border: '1px solid #DDD'
+const thing = ({item, key, keyPath}) => {
+  console.log(key)
 }
 
 const layout = (props) => (
-  <span>
+  <nav>
     <Layout className="layout">
       <Header>
         <Menu
@@ -18,11 +16,13 @@ const layout = (props) => (
           mode="horizontal"
           defaultSelectedKeys={['1']}
           style={{ lineHeight: '64px' }}
+          onClick={thing}
         >
-          <Menu.Item key="1" style={{float: 'left'}}>yuice</Menu.Item>
-          <Menu.Item key="2" style={{float: 'left'}}>bet</Menu.Item>
-          <Menu.Item key="3" style={{float: 'left'}}>about</Menu.Item>
-          <Menu.Item key="4" style={{float: 'right'}}>login</Menu.Item>
+          <Menu.Item key="index" style={{float: 'left'}}><NavLink href="/" passHref>yuice</NavLink></Menu.Item>
+          <Menu.Item key="bet" style={{float: 'left'}}><NavLink href="/bet" passHref>bet</NavLink></Menu.Item>
+          <Menu.Item key="about" style={{float: 'left'}}><NavLink href="/about" passHref>about</NavLink></Menu.Item>
+          <Menu.Item key="signup" style={{float: 'right'}}><NavLink href="/signup" passHref>signup</NavLink></Menu.Item>
+          <Menu.Item key="login" style={{float: 'right'}}><NavLink href="/login" passHref>login</NavLink></Menu.Item>
         </Menu>
       </Header>
       <Content style={{ padding: '0 50px' }}>
@@ -34,14 +34,14 @@ const layout = (props) => (
     </Layout>
     <style jsx>{`
       #components-layout-demo-top .logo {
-      width: 120px;
-      height: 31px;
-      background: rgba(255,255,255,.2);
-      margin: 16px 24px 16px 0;
-      float: left;
-      }`}
-    </style>
-  </span>
+        width: 120px;
+        height: 31px;
+        background: rgba(255,255,255,.2);
+        margin: 16px 24px 16px 0;
+        float: left;
+      }
+    `}</style>
+  </nav>
 )
 
 export default layout
