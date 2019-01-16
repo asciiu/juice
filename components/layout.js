@@ -1,6 +1,7 @@
 import { Button, Layout, Menu, Modal } from 'antd';
 import NavLink from './navLink'
 import Login from './forms/login'
+import 'antd/dist/antd.css'
 
 const { Header, Content, Footer } = Layout;
 
