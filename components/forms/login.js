@@ -61,7 +61,7 @@ class LoginForm extends React.Component {
         <Form.Item>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
-            initialValue: true,
+            initialValue: false,
           })(
             <div><Checkbox>Remember me</Checkbox></div>
           )}

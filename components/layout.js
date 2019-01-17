@@ -62,7 +62,7 @@ export default class JuiceLayout extends React.Component{
       background: '#001529'
     }
     const menuStyle = { lineHeight: '64px' }
-    const contentStyle = { padding: '0 50px' }
+    const contentStyle = { padding: '50px' }
     const footerStyle = { textAlign: 'center' } 
 
     return (
