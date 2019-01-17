@@ -1,9 +1,29 @@
 import { Button, Layout, Menu, Modal } from 'antd';
-import NavLink from './navLink'
+import {withRouter} from 'next/router'
 import LoginModalle from './forms/login'
 import 'antd/dist/antd.css'
 
 const { Header, Content, Footer } = Layout;
+
+const headerLink = ({ children, router, href }) => {
+  const style = {
+    marginRight: 10,
+    color: router.pathname === href? 'red' : 'white'
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push(href)
+  }
+
+  return (
+    <a href={href} onClick={handleClick} style={style}>
+      {children}
+    </a>
+  )
+}
+
+const HeaderLink = withRouter(headerLink)
 
 export default class JuiceLayout extends React.Component{
   state = { 
@@ -61,10 +81,10 @@ export default class JuiceLayout extends React.Component{
               defaultSelectedKeys={['1']}
               style={menuStyle}
             >
-              <Menu.Item key="index" style={leftMenuStyle}><NavLink href="/" passHref>yuice</NavLink></Menu.Item>
-              <Menu.Item key="bet" style={leftMenuStyle}><NavLink href="/bet" passHref>bet</NavLink></Menu.Item>
-              <Menu.Item key="about" style={leftMenuStyle}><NavLink href="/about" passHref>about</NavLink></Menu.Item>
-              <Menu.Item key="signup" style={rightMenuStyle}><NavLink href="/signup" passHref>signup</NavLink></Menu.Item>
+              <Menu.Item key="index" style={leftMenuStyle}><HeaderLink href="/" passHref>yuice</HeaderLink></Menu.Item>
+              <Menu.Item key="bet" style={leftMenuStyle}><HeaderLink href="/bet" passHref>bet</HeaderLink></Menu.Item>
+              <Menu.Item key="about" style={leftMenuStyle}><HeaderLink href="/about" passHref>about</HeaderLink></Menu.Item>
+              <Menu.Item key="signup" style={rightMenuStyle}><HeaderLink href="/signup" passHref>signup</HeaderLink></Menu.Item>
               <Menu.Item key="login" style={rightMenuStyle}>
                 <Button type="primary" onClick={this.showModal}>
                   login

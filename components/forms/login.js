@@ -1,5 +1,20 @@
 import { Button, Form, Icon, Input, Checkbox, Modal } from 'antd';
-import Link from '../link'
+import {withRouter} from 'next/router'
+
+const link = ({ children, router, href }) => {
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push(href)
+  }
+
+  return (
+    <a href={href} onClick={handleClick} >
+      {children}
+    </a>
+  )
+}
+  
+const Link = withRouter(link)
 
 class LoginForm extends React.Component {
   componentDidMount() {
@@ -25,6 +40,7 @@ class LoginForm extends React.Component {
   }
 
   render() {
+    const hintStyle = { color: 'rgba(0,0,0,.25)' }
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
@@ -32,14 +48,14 @@ class LoginForm extends React.Component {
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+            <Input prefix={<Icon type="user" style={hintStyle} />} placeholder="Username" />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your password!' }],
           })(
-            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+            <Input prefix={<Icon type="lock" style={hintStyle} />} type="password" placeholder="Password" />
           )}
         </Form.Item>
         <Form.Item>
