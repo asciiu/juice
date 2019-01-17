@@ -14,9 +14,14 @@ class LoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.reset()
         this.props.onLogin(e)
       } 
     });
+  }
+
+  reset = () => {
+    this.props.form.resetFields()
   }
 
   render() {
@@ -59,16 +64,21 @@ export default class LoginModalle extends React.Component {
   handleLogin = (e) => {
     this.loginForm.handleSubmit(e)
   }
+
+  handleCancel = (e) => {
+    this.loginForm.reset()
+    this.props.onCancel(e)
+  }
   
   render() {
-    const { loading, onCancel, visible } = this.props;
+    const { loading, onLogin, visible } = this.props;
     return (
         <Modal
           title="Login"
           visible={visible}
-          onCancel={onCancel}
+          onCancel={this.handleCancel}
           footer={[
-            <Button key="cancel" onClick={onCancel}>Cancel</Button>,
+            <Button key="cancel" onClick={this.handleCancel}>Cancel</Button>,
             <Button key="login" type="primary" loading={loading} onClick={this.handleLogin}>
               Login 
             </Button>
@@ -76,7 +86,7 @@ export default class LoginModalle extends React.Component {
         >
           <WrappedLoginForm 
             onRef={ref => (this.loginForm = ref)} 
-            onLogin={this.props.onLogin} 
+            onLogin={onLogin} 
           />
         </Modal>
     )
