@@ -5,7 +5,7 @@ import Signup from '../components/forms/signup'
 export default () => (
   <Layout>
     <Row>
-      <Col span={12} offset={6}>
+      <Col span={12} offset={4}>
         <Signup/>
       </Col>
     </Row>

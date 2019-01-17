@@ -4,8 +4,8 @@ import { Avatar, Row, Col, List } from 'antd'
 
 export default () => (
   <Layout>
-    <Row type="flex" justify="center">
-      <Col span={12}>
+    <Row type="flex">
+      <Col span={8} offset={2}>
         <List
           itemLayout="horizontal"
           dataSource={tickets}
