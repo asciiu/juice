@@ -1,10 +1,16 @@
 import { Button, Form, Icon, Input, Checkbox, Modal } from 'antd';
 import {withRouter} from 'next/router'
 
-const link = ({ children, router, href }) => {
+const link = ({ children, router, href, onCancel }) => {
   const handleClick = (e) => {
     e.preventDefault()
-    router.push(href)
+    // perhaps this should be done in the LoginForm somehow?
+    // close the login modal if forgot was pressed and path is already /forgot
+    if (href === "/forgot" && router.pathname === "/forgot") {
+      onCancel()
+    } else {
+      router.push(href)
+    }
   }
 
   return (
@@ -45,10 +51,10 @@ class LoginForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('email', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
-            <Input prefix={<Icon type="user" style={hintStyle} />} placeholder="Username" />
+            <Input prefix={<Icon type="mail" style={hintStyle} />} placeholder="Email" />
           )}
         </Form.Item>
         <Form.Item>
@@ -65,7 +71,7 @@ class LoginForm extends React.Component {
           })(
             <div><Checkbox>Remember me</Checkbox></div>
           )}
-          <a className="login-form-forgot" href="/forgot">Forgot password</a>
+          <Link href="/forgot" passHref onCancel={this.props.onCancel}>Forgot password</Link>
         </Form.Item>
       </Form>
     );
@@ -75,7 +81,6 @@ class LoginForm extends React.Component {
 const WrappedLoginForm = Form.create({ name: 'normal_login' })(LoginForm);
 
 export default class LoginModalle extends React.Component {
-
   handleLogin = (e) => {
     this.loginForm.handleSubmit(e)
   }
@@ -86,7 +91,8 @@ export default class LoginModalle extends React.Component {
   }
   
   render() {
-    const { loading, onLogin, visible } = this.props;
+    const { loading, onLogin, visible } = this.props
+
     return (
         <Modal
           title="Login"
@@ -102,6 +108,7 @@ export default class LoginModalle extends React.Component {
           <WrappedLoginForm 
             onRef={ref => (this.loginForm = ref)} 
             onLogin={onLogin} 
+            onCancel={this.handleCancel}
           />
         </Modal>
     )
