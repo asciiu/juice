@@ -178,43 +178,6 @@ import {
           </Form.Item>
           <Form.Item
             {...formItemLayout}
-            label="Habitual Residence"
-          >
-            {getFieldDecorator('residence', {
-              initialValue: ['zhejiang', 'hangzhou', 'xihu'],
-              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
-            })(
-              <Cascader options={residences} />
-            )}
-          </Form.Item>
-          <Form.Item
-            {...formItemLayout}
-            label="Phone Number"
-          >
-            {getFieldDecorator('phone', {
-              rules: [{ required: true, message: 'Please input your phone number!' }],
-            })(
-              <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-            )}
-          </Form.Item>
-          <Form.Item
-            {...formItemLayout}
-            label="Website"
-          >
-            {getFieldDecorator('website', {
-              rules: [{ required: true, message: 'Please input website!' }],
-            })(
-              <AutoComplete
-                dataSource={websiteOptions}
-                onChange={this.handleWebsiteChange}
-                placeholder="website"
-              >
-                <Input />
-              </AutoComplete>
-            )}
-          </Form.Item>
-          <Form.Item
-            {...formItemLayout}
             label="Captcha"
             extra="We must make sure that your are a human."
           >
