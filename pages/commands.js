@@ -1,6 +1,6 @@
 import { Row, Col, Carousel } from 'antd';
 import Layout from '../components/layout'
-import "./about.less"
+import "./commands.less"
 
 function onChange(a, b, c) {
   console.log(a, b, c);
@@ -29,8 +29,7 @@ export default () => (
           </div>
           <div>
             <h1>2nd Commandment</h1>
-            <p>Bet responsibly. Don't bet more than you are willing
-            too looose.</p>
+            <p>Bet responsibly. Don't bet more than you can looose.</p>
           </div>
         </Carousel>
       </Col>

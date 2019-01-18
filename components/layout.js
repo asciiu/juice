@@ -83,7 +83,7 @@ export default class JuiceLayout extends React.Component{
             >
               <Menu.Item key="index" style={leftMenuStyle}><HeaderLink href="/" passHref>yuice</HeaderLink></Menu.Item>
               <Menu.Item key="bet" style={leftMenuStyle}><HeaderLink href="/bet" passHref>bet</HeaderLink></Menu.Item>
-              <Menu.Item key="about" style={leftMenuStyle}><HeaderLink href="/about" passHref>about</HeaderLink></Menu.Item>
+              <Menu.Item key="commandments" style={leftMenuStyle}><HeaderLink href="/commands" passHref>commandments</HeaderLink></Menu.Item>
               <Menu.Item key="signup" style={rightMenuStyle}><HeaderLink href="/signup" passHref>signup</HeaderLink></Menu.Item>
               <Menu.Item key="login" style={rightMenuStyle}>
                 <Button type="primary" onClick={this.showModal}>
