@@ -66,7 +66,6 @@ class LoginForm extends React.Component {
             <div><Checkbox>Remember me</Checkbox></div>
           )}
           <a className="login-form-forgot" href="/forgot">Forgot password</a>
-          <span> or </span><Link href="/signup" passHref>register now!</Link>
         </Form.Item>
       </Form>
     );
