@@ -41,5 +41,5 @@ class ForgotForm extends React.Component {
   }
 }
   
-const WrappedForgotForm = Form.create({ name: 'normal_login' })(ForgotForm);
+const WrappedForgotForm = Form.create({ name: 'forget_email' })(ForgotForm);
 export default WrappedForgotForm
