@@ -17,7 +17,7 @@ export default () => (
         <p>“If the only prayer you said was thank you, that would be enough.”</p> 
         <p>- Meister Eckhart</p>
       </Col>
-      <Col span={12} offset={2}>
+      <Col span={12} offset={0}>
         <Carousel>
           <div>
             <h1>1st Commandment</h1>
