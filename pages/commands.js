@@ -38,6 +38,16 @@ export default () => (
             of a bet are before you agree to take the bet. 
             </p>
           </div>
+          <div>
+            <h1>4th Commandment</h1>
+            <p>You are liable to grade your own bet. Both sides must agree on who won 
+              the bet. As such it is in both party's interest to come to a consensus 
+              on award.</p>
+            <p>If both sides disagree, both sides will loose their wagered amount and 
+              the proceeds will be donated to charity. If such a situation were to occur
+              a panel of community arbiters will be assigned to your case to deduct from 
+              the person's profile score that did not report correctly.</p>
+          </div>
         </Carousel>
       </Col>
     </Row>
