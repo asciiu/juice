@@ -14,22 +14,29 @@ export default () => (
   <Layout>
     <Row>
       <Col span={4} offset={2} style={hintStyle}>
-        <p>“If the only prayer you said was thank you, that would be enough.”</p> 
-        <p>- Meister Eckhart</p>
+        <p>“A good neighbor is a very desireable thing.”</p> 
+        <p>- Thomas Jefferson</p>
       </Col>
-      <Col span={12} offset={0}>
+      <Col span={8} offset={2}>
         <Carousel>
           <div>
             <h1>1st Commandment</h1>
             <p>Be good to each other. Respect one another. There is virtue in humility. 
             Thrive to show good sportsmanship at all times no matter the 
             circustances. Don't be a sore looser.</p> 
-            <p>Your profile score will be determined by your other community members. 
-            People will be rewarded on basis of good behavior.</p>
+            <p>Your profile score will be determined by the people that you bet with. Therefore,
+            it is advisble that you be polite and respectful.</p>
           </div>
           <div>
             <h1>2nd Commandment</h1>
-            <p>Bet responsibly. Don't bet more than you can looose.</p>
+            <p>Be responsible. Don't bet more than you can afford to loose.</p>
+          </div>
+          <div>
+            <h1>3rd Commandment</h1>
+            <p>Fraudsters will not be tolerated. Simlarly, it is your responsbility to
+            read the terms of someone else's wager and fully understand what the terms
+            of a bet are before you agree to take the bet. 
+            </p>
           </div>
         </Carousel>
       </Col>
