@@ -96,7 +96,7 @@ export default class JuiceLayout extends React.Component{
             {this.props.children}
           </Content>
           <Footer style={footerStyle}>
-            yuice ©2019 Created by Axl Codes 
+            palis ©2019 Created by The Messenger 
           </Footer>
         </Layout>
       </span>

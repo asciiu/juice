@@ -24,7 +24,9 @@ export default () => (
             <p>Be good to each other. Respect one another. There is virtue in humility. 
             Thrive to show good sportsmanship at all times no matter the 
             circustances. Don't be a sore looser.</p> 
-            <p>Your profile score will be determined by the people that you bet with. Therefore,
+            <p>Politeness and courtesy is a rarity these days. Do your best to be nice. 
+            Don't post negative comments.</p>
+            <p>Your profile score will be determined by the community. Therefore,
             it is advisble that you be polite and respectful.</p>
           </div>
           <div>
@@ -40,13 +42,23 @@ export default () => (
           </div>
           <div>
             <h1>4th Commandment</h1>
-            <p>You are liable to grade your own bet. Both sides must agree on who won 
-              the bet. As such it is in both party's interest to come to a consensus 
-              on award.</p>
-            <p>If both sides disagree, both sides will loose their wagered amount and 
-              the proceeds will be donated to charity. If such a situation were to occur
-              a panel of community arbiters will be assigned to your case to deduct from 
-              the person's profile score that did not report correctly.</p>
+            <p>Grade your bets with morality.</p>
+            <p>You are liable to grade your own bet. 
+            If your intentions are to decieve your opponent by grading your bet 
+            incorrectly and your opponent grades against you, both of you will loose.
+            The wagered amount will be donated to charity. As such, it is in your best 
+            interest to come to a consensus on outcome.</p>
+            <p>If you are unsure of what to do, communicate with the person that you 
+            entered the bet with. If you've made a mistake when grading
+            your own bet, it is your responsibility to reach out to support and the other
+            player immediately.</p>
+          </div>
+          <div>
+            <h1>5th Commandment</h1>
+            <p>Thou shall not spam.</p>
+            <p>You're welcome to send a private message to another person in regard to 
+            your own business, but you must refrain from spamming the community on 
+            public channels. Public channels are NOT to be used for advertising purposes.</p>
           </div>
         </Carousel>
       </Col>
