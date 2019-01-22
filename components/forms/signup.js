@@ -1,6 +1,7 @@
 import {
   Form, Input, Tooltip, Icon, Select, Row, Col, Checkbox, Button, AutoComplete
 } from 'antd';
+import Recaptcha from 'react-recaptcha'
   
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -9,15 +10,24 @@ class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
+    isHuman: false
   };
 
   handleSubmit = (e) => {
+    const { isHuman } = this.state
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
+
+    if (!isHuman) {
+      alert("Please verify that you are human!")
+    } else {
+      alert("Thank you hooman!")
+    
+      this.props.form.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values);
+        }
+      });
+    }
   }
 
   handleConfirmBlur = (e) => {
@@ -40,6 +50,18 @@ class RegistrationForm extends React.Component {
       form.validateFields(['confirm'], { force: true });
     }
     callback();
+  }
+
+  recaptchaLoaded = () => {
+    console.log('Done!!!!')
+  }
+  
+  recaptchaCallback = (response) => {
+    if (response) {
+      this.setState({
+        isHuman: true 
+      })
+    }
   }
 
   render() {
@@ -130,30 +152,20 @@ class RegistrationForm extends React.Component {
             <Input />
           )}
         </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label="Captcha"
-          extra="We must make sure that your are a human."
-        >
-          <Row gutter={8}>
-            <Col span={12}>
-              {getFieldDecorator('captcha', {
-                rules: [{ required: true, message: 'Please input the captcha you got!' }],
-              })(
-                <Input />
-              )}
-            </Col>
-            <Col span={12}>
-              <Button>Get captcha</Button>
-            </Col>
-          </Row>
-        </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
           })(
             <Checkbox>I have read the <a href="">agreement</a></Checkbox>
           )}
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Recaptcha
+            sitekey="6Lf2p4sUAAAAAJNKgeLMkw2RZT-GTJ56Vb85PXdk"
+            render="explicit"
+            verifyCallback={this.recaptchaCallback}
+            onloadCallback={this.recaptchaLoaded}
+          />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">Register</Button>

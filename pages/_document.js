@@ -11,6 +11,7 @@ export default class MyDocument extends Document {
       <html>
         <Head>
           <title>palis</title>
+          <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
         </Head>
         <body className="custom_class">
           <Main />
