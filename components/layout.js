@@ -81,7 +81,7 @@ export default class JuiceLayout extends React.Component{
               defaultSelectedKeys={['1']}
               style={menuStyle}
             >
-              <Menu.Item key="index" style={leftMenuStyle}><HeaderLink href="/" passHref>yuice</HeaderLink></Menu.Item>
+              <Menu.Item key="index" style={leftMenuStyle}><HeaderLink href="/" passHref>palis</HeaderLink></Menu.Item>
               <Menu.Item key="bet" style={leftMenuStyle}><HeaderLink href="/bet" passHref>bet</HeaderLink></Menu.Item>
               <Menu.Item key="commandments" style={leftMenuStyle}><HeaderLink href="/commands" passHref>commandments</HeaderLink></Menu.Item>
               <Menu.Item key="signup" style={rightMenuStyle}><HeaderLink href="/signup" passHref>signup</HeaderLink></Menu.Item>
