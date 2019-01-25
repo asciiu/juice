@@ -31,7 +31,8 @@ export default () => (
           </div>
           <div>
             <h1>2nd Commandment</h1>
-            <p>Be responsible. Don't bet more than you can afford to loose.</p>
+            <p>Be responsible. Don't bet more than you can afford to loose, 
+              and don't take things personally.</p>
           </div>
           <div>
             <h1>3rd Commandment</h1>
